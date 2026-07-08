@@ -314,46 +314,74 @@ class StockUi {
   }
 
   renderSummaryCards(allRows) {
-    const totalItems = allRows.length;
-    const recordedItems = allRows.filter(r => r.recorded).length;
-    const notRecorded = totalItems - recordedItems;
-    const totalQty = allRows.reduce((acc, r) => acc + (r.quantity || 0), 0);
+    const todayDateString = new Date().toDateString();
+
+    // 1. Counted Today: items recorded today
+    const recordedTodayCount = allRows.filter(r => {
+      if (!r.recorded || !r.stock_updated_at) return false;
+      return new Date(r.stock_updated_at).toDateString() === todayDateString;
+    }).length;
+
+    // 2. Today's Receiving Progress
+    const plans = Storage.getMergedPlans();
+    const todayPlans = plans.filter(p => {
+      if (!p.plan_date) return false;
+      return new Date(p.plan_date).toDateString() === todayDateString;
+    });
+    
+    let todayPlanned = 0;
+    let todayReceived = 0;
+    todayPlans.forEach(p => {
+      todayPlanned += (p.planned_pallets || 0);
+      todayReceived += (p.received_pallets || 0);
+    });
+    
+    let todayProgressVal = "-";
+    let todayProgressLabel = "ไม่มีแผนสำหรับวันนี้";
+    if (todayPlans.length > 0) {
+      if (todayPlanned > 0) {
+        const pct = Math.min(100, Math.round((todayReceived / todayPlanned) * 100));
+        todayProgressVal = `${pct}%`;
+        todayProgressLabel = `รับเข้าแล้ว ${todayReceived}/${todayPlanned} พาเลท`;
+      } else {
+        todayProgressVal = "100%";
+        todayProgressLabel = "รับเข้าครบถ้วน";
+      }
+    }
+
+    // 3. Expired or Expiring soon (within 14 days)
+    const expiredOrExpiringCount = allRows.filter(r => {
+      if (!r.recorded || !r.best_before) return false;
+      const days = daysUntil(r.best_before);
+      return days !== null && days <= 14;
+    }).length;
 
     this.summaryCardsEl.innerHTML = `
       <div class="stock__card stock__card--total">
         <div class="stock__cardContent">
-          <p class="stock__cardValue">${totalItems.toLocaleString()}</p>
-          <p class="stock__cardLabel">รายการสินค้าทั้งหมด</p>
+          <p class="stock__cardValue">${recordedTodayCount.toLocaleString()}</p>
+          <p class="stock__cardLabel">บันทึกยอดจริงวันนี้</p>
         </div>
         <div class="stock__cardIcon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
         </div>
       </div>
-      <div class="stock__card stock__card--complete">
+      <div class="stock__card stock__card--partial">
         <div class="stock__cardContent">
-          <p class="stock__cardValue">${recordedItems.toLocaleString()}</p>
-          <p class="stock__cardLabel">บันทึกแล้ว</p>
+          <p class="stock__cardValue">${todayProgressVal}</p>
+          <p class="stock__cardLabel">${todayProgressLabel}</p>
         </div>
         <div class="stock__cardIcon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
         </div>
       </div>
       <div class="stock__card stock__card--pending">
         <div class="stock__cardContent">
-          <p class="stock__cardValue">${notRecorded.toLocaleString()}</p>
-          <p class="stock__cardLabel">ยังไม่ได้บันทึก</p>
+          <p class="stock__cardValue">${expiredOrExpiringCount.toLocaleString()}</p>
+          <p class="stock__cardLabel">หมดอายุ / ใกล้หมดอายุ</p>
         </div>
         <div class="stock__cardIcon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        </div>
-      </div>
-      <div class="stock__card stock__card--totalQty">
-        <div class="stock__cardContent">
-          <p class="stock__cardValue">${totalQty.toLocaleString()}</p>
-          <p class="stock__cardLabel">ยอดรวมทั้งหมด (PC)</p>
-        </div>
-        <div class="stock__cardIcon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         </div>
       </div>
     `;

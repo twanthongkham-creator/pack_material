@@ -1233,7 +1233,7 @@ body {
   .stock__summaryCards,
   .planning__summaryCards,
   .production__summaryCards {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 
