@@ -45,9 +45,19 @@ input {
   display: none !important;
 }
 
-.--selectedBtnUi {
-  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
-    brightness(99%) contrast(90%);
+.sideBar__icon:hover {
+  background-color: rgba(21, 112, 239, 0.05);
+}
+
+.sideBar__icon svg {
+  stroke: var(--color-fonts-grey);
+  fill: none;
+  transition: stroke 0.15s ease;
+}
+
+.sideBar__icon:hover svg,
+.sideBar__icon.--selectedBtnUi svg {
+  stroke: var(--color-primary-color) !important;
 }
 
 /* *--------------------- Root ---------------------* */
@@ -524,17 +534,7 @@ body {
 }
 
 .sideBar__icon:hover {
-  background-color: var(--color-background-grey);
-}
-
-.sideBar__dashboard:hover,
-.sideBar__inventory:hover,
-.sideBar__setting:hover,
-.sideBar__planning:hover,
-.sideBar__production:hover,
-.sideBar__stock:hover {
-  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
-    brightness(99%) contrast(90%);
+  background-color: rgba(21, 112, 239, 0.05);
 }
 
 /* ---- Active nav item: modern indicator and pill style ---- */
@@ -3050,3 +3050,51 @@ input[placeholder="dd/mm/yyyy"] {
     font-size: 16px !important;
   }
 }
+
+/* --- Summary Card Color Themes --- */
+
+/* 1. แผนทั้งหมด / รายการทั้งหมด (Blue) */
+.stock__card--total {
+  border-color: #93c5fd !important;
+  background: #f0f9ff !important;
+}
+.stock__card--total .stock__cardValue {
+  color: #1d4ed8;
+}
+
+/* 2. รอรับ / ยังไม่ได้บันทึก (Soft Red) */
+.stock__card--pending {
+  border-color: #fca5a5 !important;
+  background: #fef2f2 !important;
+}
+.stock__card--pending .stock__cardValue {
+  color: #dc2626;
+}
+
+/* 3. รับบางส่วน (Orange/Amber) */
+.stock__card--partial {
+  border-color: #fcd34d !important;
+  background: #fffbeb !important;
+}
+.stock__card--partial .stock__cardValue {
+  color: #d97706;
+}
+
+/* 4. รับครบแล้ว / บันทึกแล้ว (Green/Emerald) */
+.stock__card--complete {
+  border-color: #6ee7b7 !important;
+  background: #ecfdf5 !important;
+}
+.stock__card--complete .stock__cardValue {
+  color: #059669;
+}
+
+/* 5. ยอดรวมทั้งหมด (Teal) */
+.stock__card--totalQty {
+  border-color: #a5f3fc !important;
+  background: #ecfeff !important;
+}
+.stock__card--totalQty .stock__cardValue {
+  color: #0891b2;
+}
+

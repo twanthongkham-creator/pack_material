@@ -320,19 +320,19 @@ class StockUi {
     const totalQty = allRows.reduce((acc, r) => acc + (r.quantity || 0), 0);
 
     this.summaryCardsEl.innerHTML = `
-      <div class="stock__card">
+      <div class="stock__card stock__card--total">
         <p class="stock__cardValue">${totalItems.toLocaleString()}</p>
-        <p class="stock__cardLabel">รายการวัสดุทั้งหมด</p>
+        <p class="stock__cardLabel">รายการสินค้าทั้งหมด</p>
       </div>
-      <div class="stock__card">
+      <div class="stock__card stock__card--complete">
         <p class="stock__cardValue">${recordedItems.toLocaleString()}</p>
         <p class="stock__cardLabel">บันทึกแล้ว</p>
       </div>
-      <div class="stock__card">
+      <div class="stock__card stock__card--pending">
         <p class="stock__cardValue">${notRecorded.toLocaleString()}</p>
         <p class="stock__cardLabel">ยังไม่ได้บันทึก</p>
       </div>
-      <div class="stock__card">
+      <div class="stock__card stock__card--totalQty">
         <p class="stock__cardValue">${totalQty.toLocaleString()}</p>
         <p class="stock__cardLabel">ยอดรวมทั้งหมด (PC)</p>
       </div>

@@ -182,19 +182,19 @@ class PlanningUi {
     const complete = allPlans.filter(p => p.status === "complete").length;
 
     this.summaryCardsEl.innerHTML = `
-      <div class="stock__card">
+      <div class="stock__card stock__card--total">
         <p class="stock__cardValue">${total.toLocaleString()}</p>
         <p class="stock__cardLabel">แผนทั้งหมด</p>
       </div>
-      <div class="stock__card">
+      <div class="stock__card stock__card--pending">
         <p class="stock__cardValue">${pending.toLocaleString()}</p>
         <p class="stock__cardLabel">รอรับ</p>
       </div>
-      <div class="stock__card">
+      <div class="stock__card stock__card--partial">
         <p class="stock__cardValue">${partial.toLocaleString()}</p>
         <p class="stock__cardLabel">รับบางส่วน</p>
       </div>
-      <div class="stock__card">
+      <div class="stock__card stock__card--complete">
         <p class="stock__cardValue">${complete.toLocaleString()}</p>
         <p class="stock__cardLabel">รับครบแล้ว</p>
       </div>
