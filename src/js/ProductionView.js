@@ -22,33 +22,36 @@ class ProductionUi {
 
         <div class="production__summaryCards"></div>
 
-        <div class="planning__addForm production__addForm --hidden">
-          <div class="planning__formRow">
-            <div class="planning__formField">
-              <label>วันที่ผลิต</label>
-              <input type="text" inputmode="numeric" class="prodForm__date" placeholder="dd/mm/yyyy" />
+        <div class="stock__modal-overlay planning__addForm production__addForm --hidden">
+          <div class="stock__modal-content">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 700; color: #0f172a;">+ เพิ่มแผนการผลิต</h3>
+            <div class="planning__formRow">
+              <div class="planning__formField">
+                <label>วันที่ผลิต</label>
+                <input type="text" inputmode="numeric" class="prodForm__date" placeholder="dd/mm/yyyy" />
+              </div>
+              <div class="planning__formField planning__formField--wide">
+                <label>ชื่อสินค้า / ล็อตที่ผลิต</label>
+                <input type="text" class="prodForm__productName" placeholder="เช่น น้ำดื่มขวด 600ml ล็อตเช้า" />
+              </div>
             </div>
-            <div class="planning__formField planning__formField--wide">
-              <label>ชื่อสินค้า / ล็อตที่ผลิต</label>
-              <input type="text" class="prodForm__productName" placeholder="เช่น น้ำดื่มขวด 600ml ล็อตเช้า" />
+
+            <p class="production__itemsLabel">รายการวัสดุที่ต้องใช้</p>
+            <datalist id="prodMaterialList"></datalist>
+            <div class="production__itemRows"></div>
+            <button type="button" class="production__addItemRowBtn" style="margin-bottom: 1.5rem;">+ เพิ่มวัสดุ</button>
+
+            <div class="planning__formRow">
+              <div class="planning__formField planning__formField--wide">
+                <label>หมายเหตุ (ถ้ามี)</label>
+                <input type="text" class="prodForm__note" placeholder="เช่น กะเช้า / เครื่องจักรที่ใช้" />
+              </div>
             </div>
-          </div>
 
-          <p class="production__itemsLabel">รายการวัสดุที่ต้องใช้</p>
-          <datalist id="prodMaterialList"></datalist>
-          <div class="production__itemRows"></div>
-          <button type="button" class="production__addItemRowBtn">+ เพิ่มวัสดุ</button>
-
-          <div class="planning__formRow">
-            <div class="planning__formField planning__formField--wide">
-              <label>หมายเหตุ (ถ้ามี)</label>
-              <input type="text" class="prodForm__note" placeholder="เช่น กะเช้า / เครื่องจักรที่ใช้" />
+            <div class="planning__formActions" style="margin-top: 1.5rem;">
+              <button class="planning__cancelBtn production__cancelBtn">ยกเลิก</button>
+              <button class="planning__saveBtn production__saveBtn">บันทึกแผน</button>
             </div>
-          </div>
-
-          <div class="planning__formActions">
-            <button class="planning__cancelBtn production__cancelBtn">ยกเลิก</button>
-            <button class="planning__saveBtn production__saveBtn">บันทึกแผน</button>
           </div>
         </div>
 
@@ -76,7 +79,6 @@ class ProductionUi {
 
     this.addBtn.addEventListener("click", () => {
       this.addFormEl.classList.remove("--hidden");
-      this.addBtn.classList.add("--hidden");
     });
 
     this.cancelBtn.addEventListener("click", () => this.closeAddForm());
@@ -134,7 +136,6 @@ class ProductionUi {
 
   closeAddForm() {
     this.addFormEl.classList.add("--hidden");
-    this.addBtn.classList.remove("--hidden");
     document.querySelector(".prodForm__date").value = "";
     document.querySelector(".prodForm__productName").value = "";
     document.querySelector(".prodForm__note").value = "";
