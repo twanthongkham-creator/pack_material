@@ -3083,83 +3083,161 @@ input[placeholder="dd/mm/yyyy"] {
 
 /* --- Summary Card Color Themes --- */
 
-/* 1. แผนทั้งหมด / รายการทั้งหมด (Blue) */
+/* ==========================================================================
+   BLUE THEME (index.html / Stock Inventory)
+   ========================================================================== */
+
+/* 1. บันทึกยอดจริงวันนี้ (Royal Blue) */
 .stock__card--total {
   border-color: #3b82f6 !important;
-  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%) !important;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
 }
 .stock__card--total .stock__cardValue {
-  color: #0369a1;
+  color: #1e3a8a;
 }
 .stock__card--total .stock__cardLabel {
-  color: #0c4a6e;
+  color: #1e40af;
 }
 .stock__card--total .stock__cardIcon {
-  color: #0284c7;
-  background: rgba(255, 255, 255, 0.65);
+  color: #2563eb;
+  background: rgba(255, 255, 255, 0.7);
 }
 
-/* 2. รอรับ / ยังไม่ได้บันทึก (Red) */
-.stock__card--pending {
-  border-color: #ef4444 !important;
-  background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%) !important;
-}
-.stock__card--pending .stock__cardValue {
-  color: #b91c1c;
-}
-.stock__card--pending .stock__cardLabel {
-  color: #7f1d1d;
-}
-.stock__card--pending .stock__cardIcon {
-  color: #dc2626;
-  background: rgba(255, 255, 255, 0.65);
-}
-
-/* 3. รับบางส่วน (Orange/Amber) */
-.stock__card--partial {
-  border-color: #f59e0b !important;
-  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%) !important;
-}
-.stock__card--partial .stock__cardValue {
-  color: #b45309;
-}
-.stock__card--partial .stock__cardLabel {
-  color: #78350f;
-}
-.stock__card--partial .stock__cardIcon {
-  color: #d97706;
-  background: rgba(255, 255, 255, 0.65);
-}
-
-/* 4. รับครบแล้ว / บันทึกแล้ว (Green/Emerald) */
+/* 2. แผนรับเข้าวันนี้สำเร็จ (Teal Blue) */
 .stock__card--complete {
-  border-color: #10b981 !important;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
+  border-color: #0ea5e9 !important;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
 }
 .stock__card--complete .stock__cardValue {
-  color: #047857;
+  color: #0369a1;
 }
 .stock__card--complete .stock__cardLabel {
-  color: #064e3b;
+  color: #075985;
 }
 .stock__card--complete .stock__cardIcon {
-  color: #059669;
-  background: rgba(255, 255, 255, 0.65);
+  color: #0284c7;
+  background: rgba(255, 255, 255, 0.7);
 }
 
-/* 5. ยอดรวมทั้งหมด (Teal) */
-.stock__card--totalQty {
-  border-color: #06b6d4 !important;
-  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%) !important;
+/* 3. สินค้าที่มีสต็อกคงเหลือ (Teal Green/Blue) */
+.stock__card--activeStock {
+  border-color: #0d9488 !important;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%) !important;
 }
-.stock__card--totalQty .stock__cardValue {
-  color: #0891b2;
+.stock__card--activeStock .stock__cardValue {
+  color: #115e59;
 }
-.stock__card--totalQty .stock__cardLabel {
-  color: #164e63;
+.stock__card--activeStock .stock__cardLabel {
+  color: #134e4a;
 }
-.stock__card--totalQty .stock__cardIcon {
-  color: #0891b2;
-  background: rgba(255, 255, 255, 0.65);
+.stock__card--activeStock .stock__cardIcon {
+  color: #0d9488;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* 4. หมดอายุ / ใกล้หมดอายุ (Deep Indigo/Purple-Blue for warning) */
+.stock__card--pending {
+  border-color: #8b5cf6 !important;
+  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%) !important;
+}
+.stock__card--pending .stock__cardValue {
+  color: #581c87;
+}
+.stock__card--pending .stock__cardLabel {
+  color: #4c1d95;
+}
+.stock__card--pending .stock__cardIcon {
+  color: #7c3aed;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+
+/* ==========================================================================
+   GREEN THEME (planning.html / Receiving Plans)
+   ========================================================================== */
+
+.planning__card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.15rem 1.35rem;
+  border-radius: 16px;
+  border-width: 1.5px;
+  border-style: solid;
+  text-align: left !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  width: 100%;
+}
+
+.planning__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* 1. แผนทั้งหมด (Emerald Green) */
+.planning__card--total {
+  border-color: #10b981 !important;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+}
+.planning__card--total .stock__cardValue {
+  color: #064e3b;
+}
+.planning__card--total .stock__cardLabel {
+  color: #065f46;
+}
+.planning__card--total .stock__cardIcon {
+  color: #059669;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* 2. รอรับ (Lime/Light Green) */
+.planning__card--pending {
+  border-color: #84cc16 !important;
+  background: linear-gradient(135deg, #f7fee7 0%, #ecfccb 100%) !important;
+}
+.planning__card--pending .stock__cardValue {
+  color: #3f6212;
+}
+.planning__card--pending .stock__cardLabel {
+  color: #4d7c0f;
+}
+.planning__card--pending .stock__cardIcon {
+  color: #65a30d;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* 3. รับบางส่วน (Teal Green) */
+.planning__card--partial {
+  border-color: #14b8a6 !important;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%) !important;
+}
+.planning__card--partial .stock__cardValue {
+  color: #115e59;
+}
+.planning__card--partial .stock__cardLabel {
+  color: #0f766e;
+}
+.planning__card--partial .stock__cardIcon {
+  color: #0d9488;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* 4. รับครบแล้ว (Forest Green) */
+.planning__card--complete {
+  border-color: #059669 !important;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+}
+.planning__card--complete .stock__cardValue {
+  color: #14532d;
+}
+.planning__card--complete .stock__cardLabel {
+  color: #166534;
+}
+.planning__card--complete .stock__cardIcon {
+  color: #16a34a;
+  background: rgba(255, 255, 255, 0.7);
 }
 

@@ -349,7 +349,10 @@ class StockUi {
       }
     }
 
-    // 3. Expired or Expiring soon (within 14 days)
+    // 3. Active stock remaining (items with qty > 0)
+    const activeStockItemsCount = allRows.filter(r => (r.quantity || 0) > 0).length;
+
+    // 4. Expired or Expiring soon (within 14 days)
     const expiredOrExpiringCount = allRows.filter(r => {
       if (!r.recorded || !r.best_before) return false;
       const days = daysUntil(r.best_before);
@@ -366,13 +369,22 @@ class StockUi {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
         </div>
       </div>
-      <div class="stock__card stock__card--partial">
+      <div class="stock__card stock__card--complete">
         <div class="stock__cardContent">
           <p class="stock__cardValue">${todayProgressVal}</p>
           <p class="stock__cardLabel">${todayProgressLabel}</p>
         </div>
         <div class="stock__cardIcon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        </div>
+      </div>
+      <div class="stock__card stock__card--activeStock">
+        <div class="stock__cardContent">
+          <p class="stock__cardValue">${activeStockItemsCount.toLocaleString()}</p>
+          <p class="stock__cardLabel">สินค้าที่มีสต็อกคงเหลือ</p>
+        </div>
+        <div class="stock__cardIcon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
         </div>
       </div>
       <div class="stock__card stock__card--pending">
