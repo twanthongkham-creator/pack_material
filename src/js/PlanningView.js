@@ -183,20 +183,40 @@ class PlanningUi {
 
     this.summaryCardsEl.innerHTML = `
       <div class="stock__card stock__card--total">
-        <p class="stock__cardValue">${total.toLocaleString()}</p>
-        <p class="stock__cardLabel">แผนทั้งหมด</p>
+        <div class="stock__cardContent">
+          <p class="stock__cardValue">${total.toLocaleString()}</p>
+          <p class="stock__cardLabel">แผนทั้งหมด</p>
+        </div>
+        <div class="stock__cardIcon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </div>
       </div>
       <div class="stock__card stock__card--pending">
-        <p class="stock__cardValue">${pending.toLocaleString()}</p>
-        <p class="stock__cardLabel">รอรับ</p>
+        <div class="stock__cardContent">
+          <p class="stock__cardValue">${pending.toLocaleString()}</p>
+          <p class="stock__cardLabel">รอรับ</p>
+        </div>
+        <div class="stock__cardIcon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
       </div>
       <div class="stock__card stock__card--partial">
-        <p class="stock__cardValue">${partial.toLocaleString()}</p>
-        <p class="stock__cardLabel">รับบางส่วน</p>
+        <div class="stock__cardContent">
+          <p class="stock__cardValue">${partial.toLocaleString()}</p>
+          <p class="stock__cardLabel">รับบางส่วน</p>
+        </div>
+        <div class="stock__cardIcon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        </div>
       </div>
       <div class="stock__card stock__card--complete">
-        <p class="stock__cardValue">${complete.toLocaleString()}</p>
-        <p class="stock__cardLabel">รับครบแล้ว</p>
+        <div class="stock__cardContent">
+          <p class="stock__cardValue">${complete.toLocaleString()}</p>
+          <p class="stock__cardLabel">รับครบแล้ว</p>
+        </div>
+        <div class="stock__cardIcon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </div>
       </div>
     `;
   }

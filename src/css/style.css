@@ -1238,28 +1238,58 @@ body {
 }
 
 .stock__card {
-  background: var(--color-background);
-  border: 1.5px solid #cbd5e1;
-  border-radius: 12px;
-  padding: 1.1rem;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.15rem 1.35rem;
+  border-radius: 16px;
+  border-width: 1.5px;
+  border-style: solid;
+  text-align: left !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  width: 100%;
 }
 
 .stock__card:hover {
-  border-color: var(--color-primary-color);
-  box-shadow: 0 6px 14px rgba(21, 112, 239, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.stock__cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
 .stock__cardValue {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .stock__cardLabel {
-  font-size: 0.75rem;
-  color: var(--color-fonts-grey);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.stock__cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.stock__cardIcon svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.25;
 }
 
 .stock__onlyRecorded {
@@ -3055,46 +3085,81 @@ input[placeholder="dd/mm/yyyy"] {
 
 /* 1. แผนทั้งหมด / รายการทั้งหมด (Blue) */
 .stock__card--total {
-  border-color: #93c5fd !important;
-  background: #f0f9ff !important;
+  border-color: #3b82f6 !important;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%) !important;
 }
 .stock__card--total .stock__cardValue {
-  color: #1d4ed8;
+  color: #0369a1;
+}
+.stock__card--total .stock__cardLabel {
+  color: #0c4a6e;
+}
+.stock__card--total .stock__cardIcon {
+  color: #0284c7;
+  background: rgba(255, 255, 255, 0.65);
 }
 
-/* 2. รอรับ / ยังไม่ได้บันทึก (Soft Red) */
+/* 2. รอรับ / ยังไม่ได้บันทึก (Red) */
 .stock__card--pending {
-  border-color: #fca5a5 !important;
-  background: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%) !important;
 }
 .stock__card--pending .stock__cardValue {
+  color: #b91c1c;
+}
+.stock__card--pending .stock__cardLabel {
+  color: #7f1d1d;
+}
+.stock__card--pending .stock__cardIcon {
   color: #dc2626;
+  background: rgba(255, 255, 255, 0.65);
 }
 
 /* 3. รับบางส่วน (Orange/Amber) */
 .stock__card--partial {
-  border-color: #fcd34d !important;
-  background: #fffbeb !important;
+  border-color: #f59e0b !important;
+  background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%) !important;
 }
 .stock__card--partial .stock__cardValue {
+  color: #b45309;
+}
+.stock__card--partial .stock__cardLabel {
+  color: #78350f;
+}
+.stock__card--partial .stock__cardIcon {
   color: #d97706;
+  background: rgba(255, 255, 255, 0.65);
 }
 
 /* 4. รับครบแล้ว / บันทึกแล้ว (Green/Emerald) */
 .stock__card--complete {
-  border-color: #6ee7b7 !important;
-  background: #ecfdf5 !important;
+  border-color: #10b981 !important;
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%) !important;
 }
 .stock__card--complete .stock__cardValue {
+  color: #047857;
+}
+.stock__card--complete .stock__cardLabel {
+  color: #064e3b;
+}
+.stock__card--complete .stock__cardIcon {
   color: #059669;
+  background: rgba(255, 255, 255, 0.65);
 }
 
 /* 5. ยอดรวมทั้งหมด (Teal) */
 .stock__card--totalQty {
-  border-color: #a5f3fc !important;
-  background: #ecfeff !important;
+  border-color: #06b6d4 !important;
+  background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%) !important;
 }
 .stock__card--totalQty .stock__cardValue {
   color: #0891b2;
+}
+.stock__card--totalQty .stock__cardLabel {
+  color: #164e63;
+}
+.stock__card--totalQty .stock__cardIcon {
+  color: #0891b2;
+  background: rgba(255, 255, 255, 0.65);
 }
 
