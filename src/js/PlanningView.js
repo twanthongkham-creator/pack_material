@@ -21,37 +21,40 @@ class PlanningUi {
 
         <div class="planning__summaryCards"></div>
 
-        <div class="planning__addForm --hidden">
-          <div class="planning__formRow">
-            <div class="planning__formField">
-              <label>สินค้า (พิมพ์รหัสหรือชื่อ)</label>
-              <input type="text" list="planMaterialList" class="planForm__material" placeholder="พิมพ์ชื่อสินค้าหรือรหัส เช่น 130009855" />
-              <datalist id="planMaterialList"></datalist>
+        <div class="stock__modal-overlay planning__addForm --hidden">
+          <div class="stock__modal-content">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 700; color: #0f172a;">+ เพิ่มแผนรับเข้าสินค้า</h3>
+            <div class="planning__formRow">
+              <div class="planning__formField">
+                <label>สินค้า (พิมพ์รหัสหรือชื่อ)</label>
+                <input type="text" list="planMaterialList" class="planForm__material" placeholder="พิมพ์ชื่อสินค้าหรือรหัส เช่น 130009855" />
+                <datalist id="planMaterialList"></datalist>
+              </div>
             </div>
-          </div>
-          <div class="planning__formRow">
-            <div class="planning__formField">
-              <label>วันที่จะเข้า</label>
-              <input type="text" inputmode="numeric" class="planForm__date" placeholder="dd/mm/yyyy" />
+            <div class="planning__formRow">
+              <div class="planning__formField">
+                <label>วันที่จะเข้า</label>
+                <input type="text" inputmode="numeric" class="planForm__date" placeholder="dd/mm/yyyy" />
+              </div>
+              <div class="planning__formField">
+                <label>เวลาที่เข้า</label>
+                <input type="time" class="planForm__time" />
+              </div>
+              <div class="planning__formField">
+                <label>จำนวน (พาเลทเต็ม)</label>
+                <input type="number" inputmode="numeric" min="0" class="planForm__pallets" placeholder="เช่น 10" />
+              </div>
             </div>
-            <div class="planning__formField">
-              <label>เวลาที่เข้า</label>
-              <input type="time" class="planForm__time" />
+            <div class="planning__formRow">
+              <div class="planning__formField planning__formField--wide">
+                <label>หมายเหตุ (ถ้ามี)</label>
+                <input type="text" class="planForm__note" placeholder="เช่น ชื่อผู้ขนส่ง / เลขที่ PO" />
+              </div>
             </div>
-            <div class="planning__formField">
-              <label>จำนวน (พาเลทเต็ม)</label>
-              <input type="number" inputmode="numeric" min="0" class="planForm__pallets" placeholder="เช่น 10" />
+            <div class="planning__formActions" style="margin-top: 1.5rem;">
+              <button class="planning__cancelBtn">ยกเลิก</button>
+              <button class="planning__saveBtn">บันทึกแผน</button>
             </div>
-          </div>
-          <div class="planning__formRow">
-            <div class="planning__formField planning__formField--wide">
-              <label>หมายเหตุ (ถ้ามี)</label>
-              <input type="text" class="planForm__note" placeholder="เช่น ชื่อผู้ขนส่ง / เลขที่ PO" />
-            </div>
-          </div>
-          <div class="planning__formActions">
-            <button class="planning__cancelBtn">ยกเลิก</button>
-            <button class="planning__saveBtn">บันทึกแผน</button>
           </div>
         </div>
 
@@ -76,7 +79,6 @@ class PlanningUi {
 
     this.addBtn.addEventListener("click", () => {
       this.addFormEl.classList.remove("--hidden");
-      this.addBtn.classList.add("--hidden");
     });
 
     this.cancelBtn.addEventListener("click", () => this.closeAddForm());
@@ -95,7 +97,6 @@ class PlanningUi {
 
   closeAddForm() {
     this.addFormEl.classList.add("--hidden");
-    this.addBtn.classList.remove("--hidden");
     document.querySelector(".planForm__material").value = "";
     document.querySelector(".planForm__date").value = "";
     document.querySelector(".planForm__time").value = "";
