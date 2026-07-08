@@ -1,0 +1,2933 @@
+/* ? -------  Trouble shoot checking section --------- */
+
+/* * {
+  background-color: rgb(0 100 0 / 0.1);
+} */
+
+/* *--------------------- Reset ---------------------* */
+
+*,
+*::after,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+}
+
+/* @media screen and (min-width: 2000px) {
+  .container {
+    max-width: 1500px;
+    margin: 0rem auto;
+  }
+} */
+
+body {
+  background-color: var(--color-background-grey);
+  color: var(--color-fonts);
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input {
+  color: var(--color-fonts);
+}
+
+.disableScroll {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.--hidden {
+  display: none !important;
+}
+
+.--selectedBtnUi {
+  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
+    brightness(99%) contrast(90%);
+}
+
+/* *--------------------- Root ---------------------* */
+
+:root {
+  --color-primary-color: #1570ef;
+  --color-primary-shadow: #1570ef52;
+  --color-sec-shadow: #c8c0c051;
+
+  --color-background: #fff;
+  --color-background-grey: #e3e8f0;
+
+  --color-fonts: #000000;
+  --color-fonts-grey: #5d6679;
+}
+
+/* *------------------ Typography -------------------* */
+
+body {
+  font-size: 62.5%;
+  /* 1rem = 10px */
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+input,
+a,
+button {
+  font-size: 1rem;
+}
+
+@media screen and (min-width: 1000px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 300;
+  }
+}
+
+/* ------------------------ App Layout --------------------------- */
+
+/* Mobile app-shell: the whole app is locked to the viewport height and never
+   scrolls itself — only .main (the middle content area) scrolls internally.
+   The header row is fixed height and the bottom tab bar is position:fixed on
+   top, so both always stay put on screen. */
+.app {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 64px 1fr;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.sideBar {
+  display: none;
+}
+
+.header {
+  height: 64px;
+  background-color: var(--color-background);
+}
+
+.app {
+  width: 100%;
+}
+
+@media screen and (orientation: landscape) {
+  .app {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 100vh;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 60px 100vh;
+    column-gap: 0.1rem;
+    transition: grid-template-columns 0.25s ease;
+  }
+  .sideBar {
+    display: block;
+    height: 100%;
+    width: 240px;
+    grid-row: 1/-1;
+    background-color: var(--color-background);
+    transition: width 0.25s ease, padding 0.25s ease;
+    overflow: hidden;
+  }
+
+  .header {
+    height: 60px;
+    background-color: var(--color-background);
+  }
+
+  .app {
+    height: 100%;
+    width: 100%;
+    grid-row: 2/-1;
+  }
+}
+
+svg use {
+  pointer-events: none;
+}
+
+/* ----------------------------- Header ------------------------------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 5px 12px 10px rgba(107, 106, 106, 0.23);
+  z-index: 4;
+}
+
+@media screen and (orientation: landscape) {
+  .header {
+    position: relative;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 1.5rem;
+    box-shadow: 0 0 0;
+    z-index: 4;
+  }
+}
+
+/* ---- Left side: sidebar toggle (desktop only) + system name / page title ---- */
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.header__collapseBtn {
+  margin-right: 0.15rem;
+}
+
+.header__titles {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.header__systemName {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-fonts-grey);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.header__pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (orientation: landscape) {
+  .header__systemName {
+    font-size: 0.85rem;
+  }
+
+  .header__pageTitle {
+    font-size: 1.8rem;
+  }
+}
+
+.header__search__form {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header__search .icon {
+  width: 34px;
+  height: 34px;
+  padding: 0px 6px 0px 12px;
+}
+
+.header__search {
+  width: 140px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-left: 32px; */
+  border: 1px solid rgb(203, 203, 203);
+  border-radius: 8px;
+}
+
+.header__search input {
+  height: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 0rem;
+  width: 100%;
+  border: 0px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.header img {
+  margin-right: 0;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  padding: 10px 0px 10px 10px;
+}
+
+/* Mobile bottom navigation bar (replaces the old slide-in drawer + burger button) */
+.sideBar-ontoggle {
+  z-index: 10;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background);
+  padding: 0.5rem 0.25rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  /* Forces its own GPU compositing layer so mobile Safari/Chrome paints the
+     fixed bar at the correct position on first load instead of leaving it
+     mis-placed until a scroll/resize event forces a relayout. */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+@media screen and (min-width: 400px) {
+  .header__search {
+    width: 200px;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .header__search {
+    width: 260px;
+  }
+}
+
+/* -------------------------------- Sidebar ------------------------------- */
+
+/* The collapse toggle now lives in the header (next to the system name /
+   page title), not inside the sidebar itself — the sidebar is pure nav. */
+.sideBar__collapseBtn {
+  display: none;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-background-grey);
+  background: var(--color-background);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-fonts-grey);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.sideBar__collapseBtn:hover {
+  border-color: var(--color-primary-color);
+  color: var(--color-primary-color);
+}
+
+.sideBar__collapseIcon {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+@media screen and (orientation: landscape) {
+  .sideBar {
+    padding: 1.25rem 1rem;
+  }
+
+  .header__collapseBtn {
+    display: flex;
+  }
+
+  .sideBar__icon svg,
+  .sideBar__icon img {
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    transition: margin-right 0.2s ease;
+  }
+
+  .sideBar__icons {
+    color: var(--color-background-grey);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .sideBar__icon {
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 10px;
+    transition: justify-content 0.2s ease, background-color 0.15s ease;
+  }
+
+  .sideBar__icon p {
+    font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 160px;
+    opacity: 1;
+    transition: max-width 0.2s ease, opacity 0.15s ease;
+  }
+
+  /* ---- Collapsed (icon-only) desktop sidebar ---- */
+  .app.app--sideBarCollapsed {
+    grid-template-columns: 68px 1fr;
+  }
+
+  .app.app--sideBarCollapsed .sideBar {
+    width: 68px;
+    padding: 1.25rem 0.6rem;
+  }
+
+  .app.app--sideBarCollapsed .sideBar__icon {
+    justify-content: center;
+  }
+
+  .app.app--sideBarCollapsed .sideBar__icon p {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  .app.app--sideBarCollapsed .sideBar__icon svg,
+  .app.app--sideBarCollapsed .sideBar__icon img {
+    margin-right: 0;
+  }
+
+  .app.app--sideBarCollapsed .sideBar__collapseIcon {
+    transform: rotate(180deg);
+  }
+}
+
+/* ---------------------- Sidebar Toggle ---------------------- */
+
+.sideBar__icon :first-child {
+  pointer-events: none;
+}
+.sideBar__icon :last-child {
+  pointer-events: none;
+}
+.sideBar-ontoggle {
+  display: flex;
+  align-items: center;
+}
+
+/* Must come after the unconditional ".sideBar-ontoggle { display: flex }" rule
+   above so it actually wins the cascade on desktop/notebook and hides the
+   mobile bottom bar (equal specificity — last rule in source order wins). */
+@media screen and (orientation: landscape) {
+  .sideBar-ontoggle {
+    display: none;
+  }
+}
+
+.sideBar-ontoggle .sideBar__icons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sideBar-ontoggle .sideBar__icon {
+  flex-direction: column;
+  justify-content: center;
+  width: auto;
+  margin-bottom: 0;
+  gap: 0.2rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.sideBar-ontoggle .sideBar__icon svg,
+.sideBar-ontoggle .sideBar__icon img {
+  margin-right: 0;
+  width: 22px;
+  height: 22px;
+}
+
+.sideBar-ontoggle .sideBar__icon p {
+  font-size: 0.62rem;
+  text-align: center;
+}
+
+.sideBar__icon svg,
+.sideBar__icon img {
+  width: 20px;
+  height: 20px;
+  margin-right: 20px;
+}
+
+.sideBar__icons {
+  color: var(--color-fonts-grey);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+/* This rule sits after the desktop-scoped ".sideBar__icon" block above, so its
+   values win the cascade (equal specificity, later wins) — kept in sync with
+   it on purpose. Padding/radius/transition here also apply to the mobile
+   bottom bar, but ".sideBar-ontoggle .sideBar__icon" (two classes = higher
+   specificity) always overrides sizing for that context. */
+.sideBar__icon {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  transition: background-color 0.15s ease;
+}
+
+.sideBar__icon:hover {
+  background-color: var(--color-background-grey);
+}
+
+.sideBar__dashboard:hover,
+.sideBar__inventory:hover,
+.sideBar__setting:hover,
+.sideBar__planning:hover,
+.sideBar__production:hover,
+.sideBar__stock:hover {
+  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
+    brightness(99%) contrast(90%);
+}
+
+/* ---- Active nav item: clear background pill + colored, bold label ---- */
+.sideBar__icon.--selectedBtnUi {
+  background-color: rgba(21, 112, 239, 0.1);
+}
+
+.sideBar__icon.--selectedBtnUi p {
+  color: var(--color-primary-color);
+  font-weight: 600;
+}
+
+.sideBar-ontoggle .sideBar__icon.--selectedBtnUi {
+  background-color: rgba(21, 112, 239, 0.12);
+  border-radius: 12px;
+}
+
+.--hidden {
+  display: none;
+}
+
+/* --------------------- Inventory App ----------------------------- */
+/* Base (portrait/mobile): extra bottom padding clears the fixed bottom tab
+   bar so the last card in the list is never hidden behind it. */
+.main {
+  width: 100%;
+  padding: 1.25rem;
+  padding-bottom: 6rem;
+  margin-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Landscape/desktop: no fixed bottom bar, so padding is even on all sides
+   (this shorthand also resets padding-bottom back down from the mobile
+   6rem value above). */
+@media screen and (orientation: landscape) {
+  .main {
+    padding: 1.5rem 1.75rem;
+  }
+}
+
+.inventory-app {
+  padding: 1rem 0.5rem;
+  width: 100%;
+  background-color: var(--color-background);
+  border-radius: 8px;
+}
+
+.product-section {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.product-section__header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.product-section__header__buttons {
+  perspective: 2500px;
+
+  display: flex;
+  align-items: center;
+}
+
+.addProBtn {
+  cursor: pointer;
+  color: white;
+  padding: 0.65rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: var(--color-primary-color);
+  margin-right: 0.5rem;
+  font-size: 0.6rem;
+}
+
+.inventory-app table {
+  overflow-x: auto;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+
+.inventory-app table tr td {
+  margin-right: 20px;
+  padding: 0px 20px;
+  font-size: 0.7rem;
+}
+
+.inventory-app .table__title td {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.inventory-app table .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.inventory-app .table__icons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.deleteIcon {
+  cursor: pointer;
+  margin: 0;
+}
+
+.editIcon {
+  cursor: pointer;
+  padding: 0;
+  margin-right: 15px;
+}
+
+.editIcon svg {
+  pointer-events: none;
+}
+
+.editIcon:hover {
+  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
+    brightness(99%) contrast(90%);
+}
+
+.deleteIcon:hover {
+  filter: invert(29%) sepia(94%) saturate(1395%) hue-rotate(340deg)
+    brightness(92%) contrast(89%);
+}
+
+.deleteIcon img {
+  margin: 0;
+}
+@media screen and (min-width: 1024px) {
+  .inventory-app .table__title td {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .inventory-app {
+    padding: 1.5rem;
+  }
+
+  .addProBtn {
+    font-size: 0.9rem;
+    padding: 1rem 2rem;
+  }
+
+  .addProBtn:hover {
+    box-shadow: 0 0 15px var(--color-primary-shadow);
+  }
+
+  .inventory-app table tr td {
+    margin-right: 20px;
+    padding: 0px 20px;
+    font-size: 1rem;
+  }
+}
+
+/* --------------------------- Add Product Modal ------------------------------------- */
+.addProSection {
+  overflow-y: auto;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.116);
+  backdrop-filter: blur(2px);
+  z-index: 20;
+}
+
+.addProModal {
+  overflow-y: auto;
+
+  margin: 0 auto;
+  margin-top: 75px;
+  width: 70%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.addProModal__title {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.addProModal__form__inputs {
+  margin-bottom: 1rem;
+}
+
+.addProModal__form__inputs input {
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 100%;
+  outline: none;
+}
+
+.addProModal__form__inputs select,
+.addProModal__form__inputs option {
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 100%;
+  outline: none;
+  background: var(--color-background);
+}
+
+.addProModal__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.addProModal__form__inputs p {
+  display: none;
+}
+
+.addProModal__form__buttons {
+  margin-top: 0.5rem;
+  align-self: flex-end;
+}
+
+.addProModal__form__buttons button {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  outline: none;
+  border: 0 solid;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.addProModal__form__buttons :last-child {
+  color: white;
+  background-color: var(--color-primary-color);
+}
+
+@media screen and (min-width: 1024px) {
+  .addProModal__form__inputs p {
+    display: block;
+    font-size: 1rem;
+  }
+  .addProModal__form__inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .addProModal__form__inputs input,
+  .addProModal__form__inputs select {
+    width: 82%;
+  }
+  .addProModal {
+    width: 800px;
+    padding: 2rem;
+  }
+  .addProModal__form__buttons button {
+    font-size: 1rem;
+  }
+}
+
+.deleteIcon img {
+  pointer-events: none;
+}
+/* ------------------------------ Category Section --------------------------------------- */
+
+.categoryUi {
+  background-color: var(--color-background);
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  border-radius: 7px;
+}
+
+.category__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categoryUi h1 {
+  font-size: 1.3rem;
+}
+
+.addCategoryBtn {
+  font-size: 0.6rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary-color);
+  border: 0 solid;
+  color: white;
+  border-radius: 5px;
+}
+
+.category__item {
+  margin-top: 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category__item p {
+  font-size: 0.9rem;
+}
+
+.deleteBtnCategory {
+  margin-right: 0;
+  margin-left: 5px;
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.deleteBtnCategory:hover {
+  filter: invert(29%) sepia(94%) saturate(1395%) hue-rotate(340deg)
+    brightness(92%) contrast(89%);
+}
+
+.category__item__text h2 {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.category__item__text .description {
+  font-size: 0.8rem;
+}
+
+.editCategoryIcon {
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.editCategoryIcon svg {
+  pointer-events: none;
+}
+
+.category__item__icons {
+  display: flex;
+  align-self: center;
+}
+
+.editCategoryIcon:hover {
+  filter: invert(39%) sepia(62%) saturate(6335%) hue-rotate(207deg)
+    brightness(99%) contrast(90%);
+}
+
+@media screen and (min-width: 1024px) {
+  .editCategoryIcon,
+  .deleteBtnCategory {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  .categoryUi h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+  }
+
+  .category__item__text h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .category__item__text .description {
+    font-size: 1rem;
+  }
+
+  .addCategoryBtn {
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    background-color: var(--color-primary-color);
+    border: 0 solid;
+    color: white;
+    border-radius: 5px;
+  }
+}
+
+/* Edit Section */
+
+.EditCategorySection {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.192);
+  backdrop-filter: blur(2px);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 4;
+}
+
+.EditCatMod__title {
+  font-size: 1.2rem;
+}
+
+.EditCatMod {
+  padding: 1rem;
+  background-color: white;
+  width: 70%;
+  margin: 0 auto;
+  position: relative;
+  top: 180px;
+  border-radius: 8px;
+}
+
+.EditCatMod__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.EditCatMod__form input {
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 100%;
+  outline: none;
+  margin-top: 1rem;
+}
+
+.EditCatMod__btns {
+  margin-top: 1.5rem;
+  align-self: flex-end;
+}
+
+.EditCatMod__btns button {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  outline: none;
+  border: 0 solid;
+  border-radius: 5px;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.submitBtnEdit {
+  color: white;
+  background-color: var(--color-primary-color);
+}
+
+@media screen and (min-width: 1024px) {
+  .EditCatMod__form input {
+    width: 100%;
+  }
+  .EditCatMod {
+    padding: 1.5rem;
+    width: 700px;
+  }
+  .EditCatMod__btns button {
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+}
+
+/* ---------------------------------- dashboardUi ----------------------------------- */
+.dashboardUi {
+  background-color: var(--color-background);
+  padding: 1.25rem 1.5rem;
+  border-radius: 8px;
+}
+
+.dashboardUi__main {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  row-gap: 4rem;
+  margin-top: 45px;
+  width: 100%;
+}
+
+.dashboardUi__main__items {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboardUi__main__items img {
+  margin: 0;
+  width: 35px;
+  height: 35px;
+}
+
+.dashboardUi__main__items :nth-child(2) {
+  margin: 1rem 0rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.dashboardUi__main__items :last-child {
+  text-align: center;
+  width: 160px;
+}
+
+.dashboardUi__header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+@media screen and (min-width: 500px) {
+  .dashboardUi__main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1150px) {
+  .dashboardUi__main {
+    overflow: auto;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.dashboardUi__breakdown {
+  margin-top: 3rem;
+}
+
+.dashboardUi__breakdown h2 {
+  margin-bottom: 1rem;
+}
+
+.dashboardUi__breakdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dashboardUi__breakdownRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--color-background-grey);
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+
+.dashboardUi__breakdownType {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dashboardUi__breakdownCount {
+  font-size: 0.8rem;
+  color: var(--color-fonts-grey);
+}
+
+.dashboardUi__breakdownQty {
+  font-weight: 700;
+  color: var(--color-primary-color);
+  font-size: 0.95rem;
+}
+
+.dashboardUi__breakdownEmpty {
+  color: var(--color-fonts-grey);
+  font-size: 0.9rem;
+}
+
+/* ---------------------------- Stock Entry / Stock pages ---------------------------- */
+
+.stockEntry__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 1rem 1rem 1rem;
+}
+
+.stockEntry__toolbar select {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-background-grey);
+  outline: none;
+  background: var(--color-background);
+  font-size: 0.8rem;
+}
+
+.stockEntry__summary {
+  font-size: 0.8rem;
+  color: var(--color-fonts-grey);
+  flex: 1;
+}
+
+.stockEntry__saveAllBtn {
+  cursor: pointer;
+  color: white;
+  padding: 0.65rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: var(--color-primary-color);
+  font-size: 0.7rem;
+}
+
+.stockEntry__saveAllBtn:hover {
+  box-shadow: 0 0 15px var(--color-primary-shadow);
+}
+
+.stockEntry__status {
+  margin: 0 1rem 1rem 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  background: #eef4ff;
+  color: var(--color-primary-color);
+  font-size: 0.8rem;
+}
+
+.stockEntry__tableWrap {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.stockEntry-table,
+.stock-table {
+  min-width: 900px;
+}
+
+.stockEntry-table .table__title td,
+.stock-table .table__title td {
+  position: sticky;
+  top: 0;
+  background: var(--color-background);
+  z-index: 2;
+}
+
+.stockEntry-table input[type="number"] {
+  width: 90px;
+  padding: 0.5rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.8rem;
+}
+
+.stockEntry__saveBtn {
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: var(--color-primary-color);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.stockEntry__saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stock__summaryCards,
+.planning__summaryCards,
+.production__summaryCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 0 1rem 1.5rem 1rem;
+}
+
+@media screen and (min-width: 700px) {
+  .stock__summaryCards,
+  .planning__summaryCards,
+  .production__summaryCards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stock__card {
+  background: var(--color-background-grey);
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.stock__cardValue {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.stock__cardLabel {
+  font-size: 0.75rem;
+  color: var(--color-fonts-grey);
+}
+
+.stock__onlyRecorded {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-fonts-grey);
+  cursor: pointer;
+}
+
+.stock__groupRow td {
+  font-weight: 700;
+  background: var(--color-background-grey);
+  padding: 0.6rem 1.2rem !important;
+}
+
+.stock__row--pending td {
+  color: var(--color-fonts-grey);
+  font-style: italic;
+}
+
+.stockEntry__unitDisplay {
+  font-weight: 600;
+  text-align: center;
+}
+
+.stockEntry__unitWarning {
+  color: #d64545;
+  font-size: 0.65rem;
+}
+
+/* ---------------------------- Master cards (editable) ---------------------------- */
+/* .masterCard__list grid rules now live in the shared auto-fill grid section below */
+
+.masterCard {
+  background: var(--color-background);
+  border: 1px solid var(--color-background-grey);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.masterCard--editing {
+  border-color: var(--color-primary-color);
+}
+
+.masterCard__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.masterCard__name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.2rem;
+}
+
+.masterCard__meta {
+  font-size: 0.75rem;
+  color: var(--color-fonts-grey);
+}
+
+.masterCard__desc {
+  font-size: 0.8rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.5rem;
+}
+
+.masterCard__units {
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+  font-weight: 600;
+}
+
+.masterCard__editBtn {
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0.6rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary-color);
+  color: white;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.masterCard__editBtn:hover {
+  box-shadow: 0 0 12px var(--color-primary-shadow);
+}
+
+.masterCard__editForm {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-background-grey);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.masterCard__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.masterCard__field label {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+}
+
+.masterCard__field input[type="text"],
+.masterCard__field input[type="number"],
+.masterCard__field select {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  outline: none;
+  background: var(--color-background);
+}
+
+.masterCard__field input:focus,
+.masterCard__field select:focus {
+  border-color: var(--color-primary-color);
+}
+
+.masterCard__field input[type="text"].masterCard__groupCustom,
+.masterCard__field input[type="text"].masterCard__typeCustom {
+  margin-top: 0.5rem;
+}
+
+.masterCard__row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.masterCard__row .masterCard__field {
+  flex: 1;
+}
+
+.masterCard__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.masterCard__actions button {
+  flex: 1;
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.masterCard__cancelBtn {
+  background: var(--color-background-grey);
+  color: var(--color-fonts);
+}
+
+.masterCard__saveBtn {
+  background: var(--color-primary-color);
+  color: white;
+}
+
+.masterCard__saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------------------- Master pagination ---------------------------- */
+
+.master__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin: 1rem;
+  font-size: 0.8rem;
+  color: var(--color-fonts-grey);
+}
+
+.master__pagination button {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 6px;
+  background: var(--color-background);
+  font-size: 0.75rem;
+}
+
+.master__pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.master__pagination button:not(:disabled):hover {
+  border-color: var(--color-primary-color);
+  color: var(--color-primary-color);
+}
+
+/* ---------------------------- Stock cards (mobile field recording) ---------------------------- */
+
+/* .stockCard__list grid + .stockCard__groupHeader rules now live in the shared
+   auto-fill grid / group header section below */
+
+.stockCard {
+  background: var(--color-background);
+  border: 1.5px solid var(--color-background-grey);
+  border-radius: 16px;
+  padding: 1.1rem 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stockCard:hover {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.stockCard--editing {
+  border-color: var(--color-primary-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-color) 12%, transparent);
+}
+
+.stockCard--zero .stockCard__qtyValue {
+  color: #94a3b8;
+}
+
+/* ── Card header (info + quantity) ── */
+.stockCard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.stockCard__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.stockCard__name {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 0.3rem;
+  color: var(--color-fonts);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stockCard__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.stockCard__code {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+  font-family: monospace;
+  letter-spacing: 0.03em;
+}
+
+.stockCard__typeBadge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  border-radius: 99px;
+  background: #e0e7ff;
+  color: #3730a3;
+  letter-spacing: 0.02em;
+}
+
+.stockCard__summary {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.stockCard__qtyBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  justify-content: flex-end;
+}
+
+.stockCard__qtyValue {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--color-primary-color);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stockCard__unit {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-fonts-grey);
+}
+
+.stockCard__updated {
+  font-size: 0.68rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.2rem;
+  white-space: nowrap;
+}
+
+/* ── Expiry info row ── */
+.stockCard__expiryInfo {
+  font-size: 0.76rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.55rem;
+  padding: 0.35rem 0.6rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  border-left: 3px solid var(--color-background-grey);
+}
+
+.stockCard__expiryInfo:empty {
+  display: none;
+}
+
+.stockCard__expiryInfo .stockCard__expiryInfo--soon {
+  color: #b8791f;
+  font-weight: 600;
+}
+
+.stockCard__expiryInfo .stockCard__expiryInfo--expired {
+  color: #d64545;
+  font-weight: 600;
+}
+
+/* ── Toggle button ── */
+.stockCard__editBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0.9rem;
+  padding: 0.65rem 1rem;
+  border: 1.5px dashed var(--color-background-grey);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-fonts-grey);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.stockCard__editBtn:hover {
+  border-color: var(--color-primary-color);
+  color: var(--color-primary-color);
+  background: color-mix(in srgb, var(--color-primary-color) 5%, transparent);
+}
+
+.stockCard--editing .stockCard__editBtn {
+  border-style: solid;
+  border-color: var(--color-primary-color);
+  color: var(--color-primary-color);
+  background: color-mix(in srgb, var(--color-primary-color) 6%, transparent);
+}
+
+.stockCard__chevron {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.stockCard--editing .stockCard__chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Edit form panel ── */
+.stockCard__editForm {
+  overflow: hidden;
+}
+
+.stockCard__editFormInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: 1rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--color-background-grey);
+}
+
+.stockCard__editRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.stockCard__editField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.stockCard__editField label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-fonts-grey);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.stockCard__editUnit {
+  font-weight: 400;
+  font-size: 0.68rem;
+  background: #f1f5f9;
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  color: #64748b;
+}
+
+.stockCard__editField input[type="number"],
+.stockCard__editField input[type="text"] {
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  font-size: 1rem;
+  border: 1.5px solid var(--color-background-grey);
+  border-radius: 10px;
+  outline: none;
+  background: var(--color-background);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+  color: var(--color-fonts);
+}
+
+.stockCard__editField input[type="number"]:focus,
+.stockCard__editField input[type="text"]:focus {
+  border-color: var(--color-primary-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-color) 12%, transparent);
+}
+
+.stockCard__unitWarning {
+  font-size: 0.7rem;
+  color: #d64545;
+  background: #fff1f1;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+.stockCard__previewRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--color-fonts-grey);
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.stockCard__previewValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary-color);
+}
+
+/* ── Edit action buttons ── */
+.stockCard__editActions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.stockCard__editActions button {
+  flex: 1;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  letter-spacing: 0.01em;
+}
+
+.stockCard__cancelBtn {
+  background: var(--color-background-grey);
+  color: var(--color-fonts);
+}
+
+.stockCard__cancelBtn:hover {
+  background: #e2e8f0;
+}
+
+.stockCard__saveBtn {
+  background: var(--color-primary-color);
+  color: white;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--color-primary-color) 30%, transparent);
+}
+
+.stockCard__saveBtn:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary-color) 40%, transparent);
+}
+
+.stockCard__saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.stockCard__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-fonts-grey);
+  padding: 2rem 0;
+}
+
+/* toolbar stacks full-width on small phones for easier tapping */
+@media screen and (max-width: 480px) {
+  .stockEntry__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stockEntry__toolbar select,
+  .stock__onlyRecorded {
+    width: 100%;
+  }
+
+  .stock__summaryCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------------------- Full-width auto-fill card grids ---------------------- */
+/* Replaces fixed 1/2/3-column breakpoints so wide desktop monitors use the
+   whole available width instead of capping out at 3 columns. */
+
+.masterCard__list,
+.stockCard__list,
+.entryCard__list,
+.productCard__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  padding: 0 0.5rem 1rem;
+}
+
+@media screen and (min-width: 560px) {
+  .masterCard__list,
+  .stockCard__list,
+  .entryCard__list,
+  .productCard__list {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* ---------------------- Sticky filter toolbar + quick-filter chips ---------------------- */
+
+/* Mobile: sits at the top and scrolls away with the rest of the content —
+   it should NOT stay pinned while the list beneath it scrolls. */
+.stock__toolbarSticky {
+  position: static;
+  z-index: 5;
+  background: var(--color-background);
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Desktop/notebook: sticking it to the top of .main is convenient since the
+   card list can get long, so keep that behavior there. */
+@media screen and (orientation: landscape) {
+  .stock__toolbarSticky {
+    position: sticky;
+    top: 0;
+  }
+}
+
+.stock__chips,
+.stockEntry__chips {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 1rem 0.6rem;
+  scrollbar-width: none;
+}
+
+.stock__chips::-webkit-scrollbar,
+.stockEntry__chips::-webkit-scrollbar {
+  display: none;
+}
+
+.entryChip {
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-background-grey);
+  background: var(--color-background);
+  color: var(--color-fonts-grey);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.entryChip__count {
+  font-size: 0.68rem;
+  opacity: 0.75;
+}
+
+.entryChip--active {
+  background: var(--color-primary-color);
+  border-color: var(--color-primary-color);
+  color: white;
+}
+
+/* ---------------------- Group header (visual separation between Type groups) ---------------------- */
+
+.stockCard__groupHeader {
+  grid-column: 1 / -1;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-primary-color);
+  background: var(--color-background-grey);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+.stockCard__groupHeader:first-child {
+  margin-top: 0;
+}
+
+/* ---------------------- Entry cards (always-editable, bulk data entry) ---------------------- */
+
+.entryCard {
+  background: var(--color-background);
+  border: 1px solid var(--color-background-grey);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.15s ease;
+}
+
+.entryCard--dirty {
+  border-color: var(--color-primary-color);
+}
+
+.entryCard__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.entryCard__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.entryCard__meta {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.15rem;
+}
+
+.entryCard__updated {
+  font-size: 0.65rem;
+  color: var(--color-fonts-grey);
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.entryCard__editRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.entryCard__editField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.entryCard__editField label {
+  font-size: 0.7rem;
+  color: var(--color-fonts-grey);
+}
+
+.entryCard__editField input[type="number"] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  outline: none;
+}
+
+.entryCard__editField input[type="number"]:focus {
+  border-color: var(--color-primary-color);
+}
+
+.entryCard__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.entryCard__preview {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.entryCard__previewValue {
+  color: var(--color-primary-color);
+}
+
+.entryCard__saveBtn {
+  cursor: pointer;
+  color: white;
+  padding: 0.6rem 1.1rem;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: var(--color-primary-color);
+  font-size: 0.8rem;
+}
+
+.entryCard__saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------------- Inventory product cards (index.html) ---------------------- */
+
+.productCard {
+  background: var(--color-background);
+  border: 1px solid var(--color-background-grey);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.productCard__info {
+  min-width: 0;
+}
+
+.productCard__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.productCard__meta {
+  font-size: 0.75rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.25rem;
+}
+
+.productCard__qty {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary-color);
+  white-space: nowrap;
+}
+
+.productCard__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.productCard__actions .editIcon,
+.productCard__actions .deleteIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--color-background-grey);
+}
+
+@media screen and (max-width: 480px) {
+  .stock__chips,
+  .stockEntry__chips {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* ---------------------- Planning (planning.html) ---------------------- */
+
+.planning__chips {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 1rem 1rem;
+  scrollbar-width: none;
+}
+
+.planning__chips::-webkit-scrollbar {
+  display: none;
+}
+
+.planning__addForm {
+  margin: 0 1rem 1.5rem 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 12px;
+  background: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.planning__formRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.planning__formField {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.planning__formField--wide {
+  flex-basis: 100%;
+}
+
+.planning__formField label {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+}
+
+.planning__formField input {
+  padding: 0.7rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  outline: none;
+  background: var(--color-background);
+}
+
+.planning__formField input:focus {
+  border-color: var(--color-primary-color);
+}
+
+.planning__formActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.planning__formActions button {
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.planning__cancelBtn {
+  background: var(--color-background-grey);
+  color: var(--color-fonts);
+}
+
+.planning__saveBtn {
+  background: var(--color-primary-color);
+  color: white;
+}
+
+.planning__saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.planning__addBtn {
+  cursor: pointer;
+  color: white;
+  padding: 0.65rem 1.1rem;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: var(--color-primary-color);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.planning__addBtn:hover {
+  box-shadow: 0 0 15px var(--color-primary-shadow);
+}
+
+/* ---- Plan cards ---- */
+
+.planCard__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  padding: 0 0.5rem 1rem;
+}
+
+@media screen and (min-width: 560px) {
+  .planCard__list {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+}
+
+.planCard {
+  background: var(--color-background);
+  border: 1px solid var(--color-background-grey);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.planCard__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.planCard__name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.planCard__meta {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.2rem;
+}
+
+.planCard__badge {
+  flex-shrink: 0;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.planCard__badge--pending {
+  background: var(--color-background-grey);
+  color: var(--color-fonts-grey);
+}
+
+.planCard__badge--partial {
+  background: #fff2df;
+  color: #b9711f;
+}
+
+.planCard__badge--complete {
+  background: #e3f8ec;
+  color: #1a9a58;
+}
+
+.planCard__progressWrap {
+  margin-top: 0.85rem;
+}
+
+.planCard__progressBar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-background-grey);
+  overflow: hidden;
+}
+
+.planCard__progressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-fonts-grey);
+  transition: width 0.25s ease;
+}
+
+.planCard__progressFill--pending {
+  background: var(--color-fonts-grey);
+}
+
+.planCard__progressFill--partial {
+  background: #e0972e;
+}
+
+.planCard__progressFill--complete {
+  background: #22b36b;
+}
+
+.planCard__progressLabel {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.45rem;
+}
+
+.planCard__note {
+  font-size: 0.75rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.6rem;
+  font-style: italic;
+}
+
+.planCard__bottom {
+  margin-top: 0.85rem;
+}
+
+.planCard__receiveBtn {
+  width: 100%;
+  cursor: pointer;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary-color);
+  color: white;
+  font-size: 0.85rem;
+}
+
+.planCard__receiveBtn:disabled {
+  background: var(--color-background-grey);
+  color: var(--color-fonts-grey);
+  cursor: not-allowed;
+}
+
+.planCard__receiveForm {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--color-background-grey);
+}
+
+.planCard__receiveRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.planCard__receiveInput {
+  flex: 1;
+  min-width: 0;
+  padding: 0.7rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  outline: none;
+}
+
+.planCard__receiveInput:focus {
+  border-color: var(--color-primary-color);
+}
+
+.planCard__receiveRow button {
+  cursor: pointer;
+  padding: 0.7rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.planCard__receiveConfirmBtn {
+  background: var(--color-primary-color);
+  color: white;
+}
+
+.planCard__receiveCancelBtn {
+  background: var(--color-background-grey);
+  color: var(--color-fonts);
+}
+
+/* ---------------------- Production planning (production.html) ---------------------- */
+
+.production__itemsLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-fonts-grey);
+  margin-top: 0.25rem;
+}
+
+.production__itemRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.production__itemRow {
+  display: grid;
+  grid-template-columns: 1fr 90px 90px auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.production__itemRow input {
+  padding: 0.7rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-background-grey);
+  border-radius: 8px;
+  outline: none;
+  background: var(--color-background);
+  min-width: 0;
+}
+
+.production__itemRow input:focus {
+  border-color: var(--color-primary-color);
+}
+
+.production__itemRemoveBtn {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-background-grey);
+  color: var(--color-fonts-grey);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.production__itemRemoveBtn:hover {
+  color: #d64545;
+}
+
+.production__addItemRowBtn {
+  align-self: flex-start;
+  cursor: pointer;
+  padding: 0.55rem 1rem;
+  border: 1px dashed var(--color-background-grey);
+  border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-primary-color);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.production__addItemRowBtn:hover {
+  border-color: var(--color-primary-color);
+}
+
+/* Narrow phones: stack each item row's fields so labels/inputs stay readable
+   instead of being squeezed into three tiny columns. */
+@media screen and (max-width: 480px) {
+  .production__itemRow {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "material material"
+      "pallets layers"
+      "remove remove";
+  }
+
+  .production__itemRow .production__itemMaterial {
+    grid-area: material;
+  }
+
+  .production__itemRow .production__itemPallets {
+    grid-area: pallets;
+  }
+
+  .production__itemRow .production__itemLayers {
+    grid-area: layers;
+  }
+
+  .production__itemRow .production__itemRemoveBtn {
+    grid-area: remove;
+    width: 100%;
+  }
+}
+
+/* ---- Production run cards ---- */
+
+.prodCard {
+  background: var(--color-background);
+  border: 1px solid var(--color-background-grey);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.prodCard__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.prodCard__name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.prodCard__meta {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.2rem;
+}
+
+.prodCard__badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.prodCard__badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.prodCard__badge--pending {
+  background: var(--color-background-grey);
+  color: var(--color-fonts-grey);
+}
+
+.prodCard__badge--confirmed {
+  background: #e3f8ec;
+  color: #1a9a58;
+}
+
+.prodCard__badge--ready {
+  background: #e3f8ec;
+  color: #1a9a58;
+}
+
+.prodCard__badge--short {
+  background: #fdeaea;
+  color: #d64545;
+}
+
+.prodCard__items {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--color-background-grey);
+}
+
+.prodItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--color-background-grey);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+}
+
+.prodItem__name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.prodItem__meta {
+  font-size: 0.68rem;
+  color: var(--color-fonts-grey);
+  margin-top: 0.15rem;
+}
+
+.prodItem__stock {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.prodItem__stockValue {
+  font-size: 0.72rem;
+  color: var(--color-fonts-grey);
+}
+
+.prodItem__remaining {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.prodItem__remaining--ok {
+  color: #1a9a58;
+}
+
+.prodItem__remaining--short {
+  color: #d64545;
+}
+
+.prodCard__bottom {
+  margin-top: 0.85rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.prodCard__confirmBtn {
+  flex: 1;
+  cursor: pointer;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary-color);
+  color: white;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.prodCard__deleteBtn {
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-background-grey);
+  color: #d64545;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.prodCard__confirmedNote {
+  font-size: 0.78rem;
+  color: var(--color-fonts-grey);
+}
+
+/* ---------------------- dd/mm/yyyy date fields (click opens native calendar picker, see datePicker.js) ---------------------- */
+
+input[placeholder="dd/mm/yyyy"] {
+  cursor: pointer;
+}
+
+/* ---------------------- Dashboard Redesign & Premium Styles ---------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+@media screen and (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.dashboard-card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 0.75rem;
+}
+.dashboard-card-title-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dashboard-badge-red {
+  background-color: #fee2e2;
+  color: #ef4444;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.dashboard-badge-yellow {
+  background-color: #fef3c7;
+  color: #d97706;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.dashboard-badge-blue {
+  background-color: #dbeafe;
+  color: #2563eb;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.dashboard-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.dashboard-kpi-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.dashboard-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+.dashboard-kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.dashboard-kpi-icon--blue { background: rgba(21, 112, 239, 0.1); color: var(--color-primary-color); }
+.dashboard-kpi-icon--green { background: rgba(26, 154, 88, 0.1); color: #1a9a58; }
+.dashboard-kpi-icon--purple { background: rgba(147, 51, 234, 0.1); color: #9333ea; }
+.dashboard-kpi-icon--orange { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
+
+.dashboard-kpi-info {
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+.dashboard-kpi-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.15rem;
+}
+.dashboard-warning-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dashboard-warning-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #fff8f8;
+  border-left: 4px solid #ef4444;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+}
+.dashboard-warning-item--soon {
+  background: #fffbeb;
+  border-left-color: #f59e0b;
+}
+.dashboard-warning-item--insufficient {
+  background: #fdf4ff;
+  border-left-color: #d946ef;
+}
+.dashboard-warning-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.dashboard-warning-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+.dashboard-warning-meta {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+.dashboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.dashboard-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+.dashboard-list-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.dashboard-list-item-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+.dashboard-list-item-subtitle {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+.dashboard-progress-container {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: flex-end;
+}
+.dashboard-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dashboard-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--color-primary-color);
+}
+.dashboard-progress-fill--pending { background: #ef4444; }
+.dashboard-progress-fill--partial { background: #f59e0b; }
+.dashboard-progress-fill--complete { background: #1a9a58; }
+.dashboard-progress-text {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 500;
+}
+.dashboard-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.dashboard-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem 0.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.dashboard-action-btn:hover {
+  background: rgba(21, 112, 239, 0.05);
+  border-color: var(--color-primary-color);
+  transform: translateY(-2px);
+}
+.dashboard-action-btn-icon {
+  font-size: 1.5rem;
+}
+.dashboard-action-btn-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+}
+.dashboardUi__breakdownRow-modern {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.dashboardUi__breakdownRow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dashboardUi__breakdownRow-title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #1e293b;
+}
+.dashboardUi__breakdownRow-val {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-primary-color);
+}
+.dashboardUi__breakdownRow-bar {
+  height: 6px;
+  width: 100%;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dashboardUi__breakdownRow-fill {
+  height: 100%;
+  background: var(--color-primary-color);
+  border-radius: 3px;
+}
+.dashboard-section-spacing {
+  margin-top: 1.5rem;
+}
+.dashboard-sufficient-badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+.dashboard-sufficient-badge--ok {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+.dashboard-sufficient-badge--short {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Modal overlay styling for popups */
+.stock__modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+.stock__modal-content {
+  background: white;
+  width: 90%;
+  max-width: 750px;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow-y: auto;
+  padding: 2rem;
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stock__modal-overlay.--hidden {
+  display: none !important;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.addForm__typeToggleGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+.addForm__typeToggleBtn {
+  cursor: pointer;
+}
+.addForm__typeToggleBtn input {
+  display: none;
+}
+.addForm__typeToggleBtn span {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.15s ease-in-out;
+}
+.addForm__typeToggleBtn input:checked + span {
+  background: var(--color-primary-color);
+  border-color: var(--color-primary-color);
+  color: white;
+}

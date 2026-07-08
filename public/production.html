@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../src/css/font.css" />
+    <link rel="stylesheet" href="../src/css/style.css" />
+    <title>แผนการผลิต - ระบบจัดการคลังวัตถุดิบ</title>
+  </head>
+  <body>
+    <div class="app container">
+      <!--------- SideBar -------->
+
+      <div class="sideBar-ontoggle">
+        <div class="sideBar__icons">
+          <a href="./dashboard.html" class="sideBar__dashboard sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#homeIcon"></use>
+            </svg>
+            <p>แดชบอร์ด</p>
+          </a>
+          <a href="./index.html" class="sideBar__inventory sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#productIcon"></use>
+            </svg>
+            <p>คลังวัตถุดิบ</p>
+          </a>
+          <a href="./planning.html" class="sideBar__planning sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#calendarIcon"></use>
+            </svg>
+            <p>แผนรับเข้า</p>
+          </a>
+          <a href="./production.html" class="sideBar__production sideBar__icon --selectedBtnUi">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#factoryIcon"></use>
+            </svg>
+            <p>แผนการผลิต</p>
+          </a>
+          <a href="./master.html" class="sideBar__setting sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#masterIcon"></use>
+            </svg>
+            <p>ข้อมูลหลัก</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="sideBar">
+        <div class="sideBar__icons">
+          <a href="./dashboard.html" class="sideBar__dashboard sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#homeIcon"></use>
+            </svg>
+            <p>แดชบอร์ด</p>
+          </a>
+          <a href="./index.html" class="sideBar__inventory sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#productIcon"></use>
+            </svg>
+            <p>คลังวัตถุดิบ</p>
+          </a>
+          <a href="./planning.html" class="sideBar__planning sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#calendarIcon"></use>
+            </svg>
+            <p>แผนรับเข้า</p>
+          </a>
+          <a href="./production.html" class="sideBar__production sideBar__icon --selectedBtnUi">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#factoryIcon"></use>
+            </svg>
+            <p>แผนการผลิต</p>
+          </a>
+          <a href="./master.html" class="sideBar__setting sideBar__icon">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#masterIcon"></use>
+            </svg>
+            <p>ข้อมูลหลัก</p>
+          </a>
+        </div>
+      </div>
+
+      <!--------- Header --------->
+
+      <header class="header">
+        <div class="header__left">
+          <button class="sideBar__collapseBtn header__collapseBtn" type="button" aria-label="ย่อ/ขยายเมนู" title="ย่อ/ขยายเมนู">
+            <span class="sideBar__collapseIcon">&#8249;</span>
+          </button>
+          <div class="header__titles">
+            <p class="header__systemName">PM STOCK</p>
+            <p class="header__pageTitle">แผนการผลิต</p>
+          </div>
+        </div>
+        <form class="header__search__form">
+          <div class="header__search">
+            <svg class="icon">
+              <use xlink:href="../assets/images/sprite.svg#search"></use>
+            </svg>
+            <input
+              type="text"
+              placeholder="ค้นหาวัสดุ..."
+              class="searchBarInput"
+            />
+          </div>
+        </form>
+      </header>
+
+      <div class="main"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../src/js/productionApp.js" type="module"></script>
+  </body>
+</html>
