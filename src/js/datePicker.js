@@ -61,20 +61,17 @@ function openPickerFor(textInput) {
     textInput.dispatchEvent(new Event("input", { bubbles: true }));
     textInput.dispatchEvent(new Event("change", { bubbles: true }));
   };
-
-  // Blur the text field first so mobile browsers don't also pop the
-  // on-screen keyboard behind the calendar UI.
-  textInput.blur();
-
   if (typeof picker.showPicker === "function") {
     try {
       picker.showPicker();
+      textInput.blur();
       return;
     } catch (err) {
-      // Some browsers throw if not triggered by a "trusted" user gesture in
-      // certain contexts — fall through to the .click() fallback below.
+      // Fallback if showPicker fails
     }
   }
+
+  textInput.blur();
   picker.click();
 }
 

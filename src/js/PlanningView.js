@@ -24,8 +24,8 @@ class PlanningUi {
         <div class="planning__addForm --hidden">
           <div class="planning__formRow">
             <div class="planning__formField">
-              <label>วัสดุ (พิมพ์รหัสหรือชื่อ)</label>
-              <input type="text" list="planMaterialList" class="planForm__material" placeholder="เช่น 130009855" />
+              <label>สินค้า (พิมพ์รหัสหรือชื่อ)</label>
+              <input type="text" list="planMaterialList" class="planForm__material" placeholder="พิมพ์ชื่อสินค้าหรือรหัส เช่น 130009855" />
               <datalist id="planMaterialList"></datalist>
             </div>
           </div>
@@ -113,10 +113,31 @@ class PlanningUi {
   }
 
   resolveMaterialFromInput(value) {
-    const match = String(value || "").trim().match(/^(\d+)/);
-    if (!match) return null;
-    const code = Number(match[1]);
-    return Storage.getMasterPackmat().find(pm => pm.material === code) || null;
+    const val = String(value || "").trim().toLowerCase();
+    if (!val) return null;
+
+    const all = Storage.getMasterPackmat();
+
+    // 1. Try exact match on code (if it's purely a number)
+    const pureNumber = Number(val);
+    if (!isNaN(pureNumber)) {
+      const found = all.find(pm => pm.material === pureNumber);
+      if (found) return found;
+    }
+
+    // 2. Try pattern match: extracts digits from start (e.g. "130011571 - Sleek can...")
+    const matchDigits = val.match(/^(\d+)/);
+    if (matchDigits) {
+      const code = Number(matchDigits[1]);
+      const found = all.find(pm => pm.material === code);
+      if (found) return found;
+    }
+
+    // 3. Try to find by name (if user typed part of the name, e.g. "Sleek can325")
+    const foundByName = all.find(pm => (pm.material_name || "").toLowerCase().includes(val));
+    if (foundByName) return foundByName;
+
+    return null;
   }
 
   populateChips() {
@@ -273,7 +294,7 @@ class PlanningUi {
 
     const material = this.resolveMaterialFromInput(materialInput.value);
     if (!material) {
-      alert("กรุณาเลือกวัสดุจากรายการ (พิมพ์รหัสหรือชื่อแล้วเลือกจากตัวเลือกที่ขึ้นมา)");
+      alert("กรุณาเลือกสินค้าจากรายการ (พิมพ์รหัสหรือชื่อแล้วเลือกจากตัวเลือกที่ขึ้นมา)");
       return;
     }
 

@@ -2997,3 +2997,16 @@ input[placeholder="dd/mm/yyyy"] {
   color: white;
 }
 
+/* Prevent auto-zooming on focus in iOS and other mobile browsers by ensuring inputs are at least 16px */
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea,
+  .planning__formField input,
+  .stockCard__editField input,
+  .production__itemRow input,
+  .planForm__date,
+  .planForm__material {
+    font-size: 16px !important;
+  }
+}
