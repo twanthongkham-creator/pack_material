@@ -13,11 +13,9 @@ class DashboardUi {
     const totalMaterials = rows.length;
     const totalQuantity = rows.reduce((acc, r) => acc + (r.quantity || 0), 0);
     const pendingPlansCount = plans.filter(p => p.status !== 'complete').length;
-    const pendingRunsCount = runs.filter(r => r.status === 'pending').length;
 
-    // Get Warnings (Expired & Expiring soon, Insufficient production stock)
+    // Get Warnings (Expired & Expiring soon)
     const expiryWarnings = this.getExpiryWarnings(rows);
-    const productionWarnings = this.getProductionWarnings(runs);
 
     // Get items recorded today
     const today = new Date();
@@ -31,7 +29,6 @@ class DashboardUi {
 
     // Get upcoming entries (top 3)
     const upcomingPlans = this.getUpcomingPlans(plans);
-    const upcomingRuns = this.getUpcomingRuns(runs);
 
     // Get type breakdown HTML
     const breakdownHtml = this.typeBreakdownModern(rows, totalQuantity);
@@ -40,18 +37,18 @@ class DashboardUi {
     <div class="dashboardUi" style="background: transparent; padding: 0;">
       <div class="dashboardUi__header" style="margin-bottom: 1.5rem;">
         <h1 style="font-size: 1.8rem; font-weight: 700; color: #0f172a;">ภาพรวมระบบ</h1>
-        <p style="font-size: 0.9rem; color: #64748b; margin-top: 0.25rem;">รายงานสถานะการจัดการคลังวัตถุดิบ แผนรับเข้า และแผนการผลิตบรรจุภัณฑ์</p>
+        <p style="font-size: 0.9rem; color: #64748b; margin-top: 0.25rem;">รายงานสถานะการจัดการคลังสินค้า และแผนรับเข้าสินค้า</p>
       </div>
 
       <!-- KPI Metrics Grid -->
-      <div class="dashboard-kpi-grid">
+      <div class="dashboard-kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
         <div class="dashboard-kpi-card">
           <div class="dashboard-kpi-icon dashboard-kpi-icon--blue">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
           </div>
           <div class="dashboard-kpi-info">
             <span class="dashboard-kpi-value">${totalMaterials.toLocaleString()}</span>
-            <span class="dashboard-kpi-label">รายการวัสดุทั้งหมด</span>
+            <span class="dashboard-kpi-label">รายการสินค้าทั้งหมด</span>
           </div>
         </div>
 
@@ -74,16 +71,6 @@ class DashboardUi {
             <span class="dashboard-kpi-label">แผนรับเข้าที่รอรับ</span>
           </div>
         </div>
-
-        <div class="dashboard-kpi-card">
-          <div class="dashboard-kpi-icon dashboard-kpi-icon--orange">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;"><path d="M2 22V12l8 4V8l8 4V4h4v18H2z"></path></svg>
-          </div>
-          <div class="dashboard-kpi-info">
-            <span class="dashboard-kpi-value">${pendingRunsCount.toLocaleString()}</span>
-            <span class="dashboard-kpi-label">แผนการผลิตที่ค้าง</span>
-          </div>
-        </div>
       </div>
 
       <div class="dashboard-quick-actions dashboard-section-spacing">
@@ -99,12 +86,6 @@ class DashboardUi {
           </span>
           <span class="dashboard-action-btn-text">สร้างแผนรับเข้า</span>
         </a>
-        <a href="./production.html" class="dashboard-action-btn">
-          <span class="dashboard-action-btn-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin: 0 auto 2px;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          </span>
-          <span class="dashboard-action-btn-text">วางแผนการผลิต</span>
-        </a>
       </div>
 
       <!-- Main Dashboard Grid Layout -->
@@ -119,15 +100,14 @@ class DashboardUi {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:6px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 การแจ้งเตือนที่สำคัญ
               </span>
-              ${(expiryWarnings.count + productionWarnings.count) > 0 ? `<span class="dashboard-badge-red">${expiryWarnings.count + productionWarnings.count} เรื่อง</span>` : `<span class="dashboard-badge-blue" style="background:#d1fae5; color:#065f46;">ปกติ</span>`}
+              ${expiryWarnings.count > 0 ? `<span class="dashboard-badge-red">${expiryWarnings.count} เรื่อง</span>` : `<span class="dashboard-badge-blue" style="background:#d1fae5; color:#065f46;">ปกติ</span>`}
             </h3>
             <div class="dashboard-warning-list">
               ${expiryWarnings.html}
-              ${productionWarnings.html}
-              ${(expiryWarnings.count === 0 && productionWarnings.count === 0) ? `
+              ${expiryWarnings.count === 0 ? `
                 <div style="text-align: center; padding: 2rem 0; color: #64748b;">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block; margin: 0 auto 0.5rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                  <p style="font-size: 0.9rem;">คลังวัตถุดิบของคุณปกติดี ไม่พบวันหมดอายุหรือสต็อกขาดแคลน</p>
+                  <p style="font-size: 0.9rem;">คลังสินค้าของคุณปกติดี ไม่พบสินค้าใกล้หมดอายุ</p>
                 </div>
               ` : ''}
             </div>
@@ -152,26 +132,12 @@ class DashboardUi {
             <h3>
               <span class="dashboard-card-title-text">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                แผนรับเข้าบรรจุภัณฑ์เร็ว ๆ นี้
+                แผนรับเข้าสินค้าเร็ว ๆ นี้
               </span>
               <a href="./planning.html" style="font-size: 0.8rem; color: var(--color-primary-color); font-weight: 500;">ดูทั้งหมด &rsaquo;</a>
             </h3>
             <div class="dashboard-list">
               ${upcomingPlans}
-            </div>
-          </div>
-
-          <!-- Upcoming Production Runs -->
-          <div class="dashboard-card">
-            <h3>
-              <span class="dashboard-card-title-text">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:6px;"><path d="M2 22V12l8 4V8l8 4V4h4v18H2z"></path></svg>
-                แผนการผลิตเร็ว ๆ นี้
-              </span>
-              <a href="./production.html" style="font-size: 0.8rem; color: var(--color-primary-color); font-weight: 500;">ดูทั้งหมด &rsaquo;</a>
-            </h3>
-            <div class="dashboard-list">
-              ${upcomingRuns}
             </div>
           </div>
 
@@ -263,35 +229,7 @@ class DashboardUi {
     return { count: warnings.length, html };
   }
 
-  // Get Insufficient production warnings
-  getProductionWarnings(runs) {
-    let count = 0;
-    let html = '';
 
-    const pendingShort = runs.filter(r => r.status === 'pending' && !r.allSufficient);
-    pendingShort.forEach(run => {
-      count++;
-      const missingItemsNames = run.items
-        .filter(i => !i.sufficient)
-        .map(i => i.material_name)
-        .join(', ');
-
-      html += `
-        <div class="dashboard-warning-item dashboard-warning-item--insufficient">
-          <div class="dashboard-warning-info">
-            <span class="dashboard-warning-name">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><path d="M2 22V12l8 4V8l8 4V4h4v18H2z"></path></svg>
-              แผนผลิต: ${run.product_name} (วันที่ ${formatDMY(run.run_date)})
-            </span>
-            <span class="dashboard-warning-meta">วัสดุที่สต็อกไม่พอ: ${missingItemsNames}</span>
-          </div>
-          <span class="dashboard-badge-red" style="background:#fdf4ff; color:#d946ef; border:1px solid #f5d0fe;">สต็อกไม่เพียงพอ</span>
-        </div>
-      `;
-    });
-
-    return { count, html };
-  }
 
   // Get upcoming receiving plans (Top 3)
   getUpcomingPlans(plans) {
@@ -333,34 +271,7 @@ class DashboardUi {
     }).join("");
   }
 
-  // Get upcoming production runs (Top 3)
-  getUpcomingRuns(runs) {
-    const pending = runs.filter(r => r.status === 'pending');
-    
-    // Sort by date ascending
-    pending.sort((a, b) => (a.run_date || "").localeCompare(b.run_date || ""));
 
-    const top = pending.slice(0, 3);
-    if (top.length === 0) {
-      return `<p style="font-size: 0.85rem; color: #64748b; text-align: center; padding: 1rem 0;">ไม่มีแผนการผลิตที่รอดำเนินการ</p>`;
-    }
-
-    return top.map(r => {
-      const itemsCount = r.items ? r.items.length : 0;
-      const statusClass = r.allSufficient ? 'ok' : 'short';
-      const statusText = r.allSufficient ? 'สต็อกครบ' : 'สต็อกไม่พอ';
-
-      return `
-        <div class="dashboard-list-item">
-          <div class="dashboard-list-item-main">
-            <span class="dashboard-list-item-title">${r.product_name}</span>
-            <span class="dashboard-list-item-subtitle">วันที่จัดส่ง/ผลิต: ${formatDMY(r.run_date)} · ใช้วัสดุ ${itemsCount} รายการ</span>
-          </div>
-          <span class="dashboard-sufficient-badge dashboard-sufficient-badge--${statusClass}">${statusText}</span>
-        </div>
-      `;
-    }).join("");
-  }
 
   // Get recorded today HTML list
   getRecordedTodayHtml(recordedToday) {
