@@ -1,6 +1,7 @@
 # Real business data — not meant for a public repo (kept locally only)
 documents/*.xlsx
 documents/discovered_tables*.txt
+
 # OS/editor cruft
 .DS_Store
 Thumbs.db

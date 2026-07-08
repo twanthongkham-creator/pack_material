@@ -24,7 +24,7 @@ class StockUi {
         <div class="stock__modal-overlay stock__addForm --hidden">
           <div class="stock__modal-content">
             <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 700; color: #0f172a;">+ เพิ่มวัตถุดิบและยอดสต็อกเริ่มต้น</h3>
-
+            
             <div class="planning__formRow">
               <div class="planning__formField">
                 <label>รหัสวัตถุดิบ *</label>
@@ -180,7 +180,7 @@ class StockUi {
         const pm = Storage.getMasterPackmat().find(item => item.material === code);
         if (pm) {
           document.querySelector(".addForm__materialName").value = pm.material_name || "";
-
+          
           const typeVal = pm.type || "อื่นๆ";
           const radio = document.querySelector(`.addForm__typeRadio[value="${typeVal}"]`) || document.querySelector(`.addForm__typeRadio[value="อื่นๆ"]`);
           if (radio) {
@@ -190,7 +190,7 @@ class StockUi {
           document.querySelector(".addForm__palletUnit").value = pm.pallet_unit !== null ? pm.pallet_unit : "";
           document.querySelector(".addForm__layerUnit").value = pm.layer_unit !== null ? pm.layer_unit : "";
           document.querySelector(".addForm__shelfLife").value = pm.shelf_life !== null ? pm.shelf_life : "";
-
+          
           this.triggerAddFormBBAutoCalc();
         }
       }
@@ -245,7 +245,16 @@ class StockUi {
 
     let html = `
       <button class="entryChip entryChip--active" data-type="" data-special="">ทั้งหมด</button>
-      <button class="entryChip" data-type="" data-special="today" style="background-color: #fef3c7; border-color: #d97706; color: #b45309;">บันทึกวันนี้ <span class="entryChip__count" style="background:#d97706; color:white;">${todayCount}</span></button>
+      <button class="entryChip entryChip--today" data-type="" data-special="today">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+          <rect x="1" y="2" width="14" height="13" rx="2"/>
+          <line x1="1" y1="6" x2="15" y2="6"/>
+          <line x1="5" y1="1" x2="5" y2="4"/>
+          <line x1="11" y1="1" x2="11" y2="4"/>
+        </svg>
+        บันทึกวันนี้
+        <span class="entryChip__count entryChip__count--today">${todayCount}</span>
+      </button>
     `;
     this.allTypes.forEach(t => {
       const count = allRows.filter(r => (r.type || "").trim() === t && (r.quantity || 0) > 0).length;
@@ -378,7 +387,7 @@ class StockUi {
 
     return `
     <div class="stockCard ${total > 0 ? '' : 'stockCard--zero'}" data-material="${row.material}" data-pallet-unit="${row.pallet_unit || 0}" data-layer-unit="${row.layer_unit || 0}">
-
+      
       <div class="stockCard__header">
         <div class="stockCard__info">
           <p class="stockCard__name">${row.material_name || ""}</p>
@@ -664,7 +673,7 @@ class StockUi {
 
       // refresh summary cards
       this.renderSummaryCards(Storage.getMergedStock());
-
+      
       // If we are filtering by "recorded today", refresh DOM to ensure counts update
       if (this.showTodayOnly) {
         this.populateChips();

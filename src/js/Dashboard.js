@@ -111,7 +111,7 @@ class DashboardUi {
       <div class="dashboard-grid">
         <!-- Left Column: Tasks / Alerts / Warnings / Schedules -->
         <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-
+          
           <!-- Alerts Card -->
           <div class="dashboard-card">
             <h3>
@@ -296,7 +296,7 @@ class DashboardUi {
   // Get upcoming receiving plans (Top 3)
   getUpcomingPlans(plans) {
     const active = plans.filter(p => p.status !== 'complete');
-
+    
     // Sort by date / time ascending
     active.sort((a, b) => {
       const dateCmp = (a.plan_date || "").localeCompare(b.plan_date || "");
@@ -336,7 +336,7 @@ class DashboardUi {
   // Get upcoming production runs (Top 3)
   getUpcomingRuns(runs) {
     const pending = runs.filter(r => r.status === 'pending');
-
+    
     // Sort by date ascending
     pending.sort((a, b) => (a.run_date || "").localeCompare(b.run_date || ""));
 
@@ -424,3 +424,4 @@ class DashboardUi {
 }
 
 export default new DashboardUi();
+

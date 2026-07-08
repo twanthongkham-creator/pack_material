@@ -303,7 +303,7 @@ class CategoryUi {
       });
 
       const sheetNames = dailyData.SheetNames;
-
+      
       const parseQty = (val) => {
         if (val === undefined || val === null) return 0;
         const cleaned = String(val).replace(/,/g, '');
