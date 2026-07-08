@@ -1238,10 +1238,18 @@ body {
 }
 
 .stock__card {
-  background: var(--color-background-grey);
-  border-radius: 10px;
-  padding: 1rem;
+  background: var(--color-background);
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 1.1rem;
   text-align: center;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stock__card:hover {
+  border-color: var(--color-primary-color);
+  box-shadow: 0 6px 14px rgba(21, 112, 239, 0.08);
 }
 
 .stock__cardValue {
@@ -1465,10 +1473,10 @@ body {
 
 .stockCard {
   background: var(--color-background);
-  border: 1.5px solid var(--color-background-grey);
+  border: 1.5px solid #cbd5e1;
   border-radius: 16px;
   padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
   display: flex;
   flex-direction: column;
@@ -2255,10 +2263,16 @@ body {
 
 .planCard {
   background: var(--color-background);
-  border: 1px solid var(--color-background-grey);
+  border: 1.5px solid #cbd5e1;
   border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.planCard:hover {
+  border-color: var(--color-primary-color);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.09);
 }
 
 .planCard__top {
@@ -2688,8 +2702,8 @@ input[placeholder="dd/mm/yyyy"] {
   background: #ffffff;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.05);
+  border: 1.5px solid #cbd5e1;
 }
 .dashboard-card h3 {
   font-size: 1.15rem;
@@ -2741,12 +2755,12 @@ input[placeholder="dd/mm/yyyy"] {
   background: #ffffff;
   border-radius: 12px;
   padding: 1.25rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+  border: 1.5px solid #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .dashboard-kpi-card:hover {
   transform: translateY(-2px);
