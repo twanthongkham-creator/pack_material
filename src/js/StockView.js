@@ -141,6 +141,9 @@ class StockUi {
 
     this.addBtn = document.querySelector(".stock__addBtn");
     this.addFormEl = document.querySelector(".stock__addForm");
+    if (this.addFormEl) {
+      document.body.appendChild(this.addFormEl);
+    }
     this.formCancelBtn = document.querySelector(".stock__formCancelBtn");
     this.formSaveBtn = document.querySelector(".stock__formSaveBtn");
 

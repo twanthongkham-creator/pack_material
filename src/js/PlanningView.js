@@ -68,6 +68,9 @@ class PlanningUi {
     this.chipsEl = document.querySelector(".planning__chips");
     this.summaryCardsEl = document.querySelector(".planning__summaryCards");
     this.addFormEl = document.querySelector(".planning__addForm");
+    if (this.addFormEl) {
+      document.body.appendChild(this.addFormEl);
+    }
     this.materialInputEl = document.querySelector(".planForm__material");
     this.materialDropdownEl = document.querySelector(".planForm__materialDropdown");
     this.addBtn = document.querySelector(".planning__addBtn");
