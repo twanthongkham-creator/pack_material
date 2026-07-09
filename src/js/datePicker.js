@@ -34,6 +34,7 @@ function getHiddenInput() {
   hiddenInput.style.opacity = "0";
   hiddenInput.style.pointerEvents = "none";
   hiddenInput.style.border = "0";
+  hiddenInput.style.zIndex = "999999";
   document.body.appendChild(hiddenInput);
   return hiddenInput;
 }

@@ -25,10 +25,10 @@ class PlanningUi {
           <div class="stock__modal-content">
             <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 700; color: #0f172a;">+ เพิ่มแผนรับเข้าสินค้า</h3>
             <div class="planning__formRow">
-              <div class="planning__formField">
+              <div class="planning__formField" style="position: relative;">
                 <label>สินค้า (พิมพ์รหัสหรือชื่อ)</label>
-                <input type="text" list="planMaterialList" class="planForm__material" placeholder="พิมพ์ชื่อสินค้าหรือรหัส เช่น 130009855" />
-                <datalist id="planMaterialList"></datalist>
+                <input type="text" class="planForm__material" placeholder="พิมพ์ชื่อสินค้าหรือรหัส เช่น 130009855" autocomplete="off" />
+                <div class="planForm__materialDropdown --hidden" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #cbd5e1; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 20000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 4px;"></div>
               </div>
             </div>
             <div class="planning__formRow">
@@ -68,12 +68,13 @@ class PlanningUi {
     this.chipsEl = document.querySelector(".planning__chips");
     this.summaryCardsEl = document.querySelector(".planning__summaryCards");
     this.addFormEl = document.querySelector(".planning__addForm");
-    this.materialListEl = document.querySelector("#planMaterialList");
+    this.materialInputEl = document.querySelector(".planForm__material");
+    this.materialDropdownEl = document.querySelector(".planForm__materialDropdown");
     this.addBtn = document.querySelector(".planning__addBtn");
     this.cancelBtn = document.querySelector(".planning__cancelBtn");
     this.saveBtn = document.querySelector(".planning__saveBtn");
 
-    this.populateMaterialOptions();
+    this.setupMaterialAutocomplete();
     this.populateChips();
     this.updateDOM();
 
@@ -97,6 +98,7 @@ class PlanningUi {
 
   closeAddForm() {
     this.addFormEl.classList.add("--hidden");
+    this.materialDropdownEl.classList.add("--hidden");
     document.querySelector(".planForm__material").value = "";
     document.querySelector(".planForm__date").value = "";
     document.querySelector(".planForm__time").value = "";
@@ -104,13 +106,64 @@ class PlanningUi {
     document.querySelector(".planForm__note").value = "";
   }
 
-  populateMaterialOptions() {
-    const all = Storage.getMasterPackmat()
+  setupMaterialAutocomplete() {
+    const input = this.materialInputEl;
+    const dropdown = this.materialDropdownEl;
+    if (!input || !dropdown) return;
+
+    const allPackmats = Storage.getMasterPackmat()
       .slice()
       .sort((a, b) => (a.material_name || "").localeCompare(b.material_name || ""));
-    this.materialListEl.innerHTML = all
-      .map(pm => `<option value="${pm.material} - ${pm.material_name || ""}"></option>`)
-      .join("");
+
+    const renderDropdown = (filterText) => {
+      const query = String(filterText || "").trim().toLowerCase();
+      let filtered = allPackmats;
+      if (query) {
+        filtered = allPackmats.filter(pm => 
+          String(pm.material).includes(query) || 
+          String(pm.material_name || "").toLowerCase().includes(query)
+        );
+      }
+
+      if (filtered.length === 0) {
+        dropdown.innerHTML = `<div style="padding: 0.75rem; font-size: 0.85rem; color: #64748b; text-align: center;">ไม่พบข้อมูลสินค้า</div>`;
+        return;
+      }
+
+      dropdown.innerHTML = filtered.map(pm => {
+        const text = `${pm.material} - ${pm.material_name || ""}`;
+        return `
+          <div class="autocomplete-item" data-value="${text}" style="padding: 0.75rem 1rem; font-size: 0.85rem; color: #0f172a; cursor: pointer; border-bottom: 1px solid #f1f5f9; transition: background 0.15s;">
+            <strong>${pm.material}</strong> - ${pm.material_name || ""}
+          </div>
+        `;
+      }).join("");
+    };
+
+    input.addEventListener("input", (e) => {
+      dropdown.classList.remove("--hidden");
+      renderDropdown(e.target.value);
+    });
+
+    input.addEventListener("focus", () => {
+      dropdown.classList.remove("--hidden");
+      renderDropdown(input.value);
+    });
+
+    dropdown.addEventListener("click", (e) => {
+      const item = e.target.closest(".autocomplete-item");
+      if (item) {
+        input.value = item.getAttribute("data-value");
+        dropdown.classList.add("--hidden");
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add("--hidden");
+      }
+    });
   }
 
   resolveMaterialFromInput(value) {
