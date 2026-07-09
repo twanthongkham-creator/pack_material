@@ -756,21 +756,24 @@ body {
 }
 
 .addProModal__form__inputs input {
-  border: 1px solid var(--color-background-grey);
+  border: 1.5px solid #cbd5e1;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.85rem 1rem;
   width: 100%;
   outline: none;
+  background: var(--color-background);
+  color: var(--color-fonts);
 }
 
 .addProModal__form__inputs select,
 .addProModal__form__inputs option {
-  border: 1px solid var(--color-background-grey);
+  border: 1.5px solid #cbd5e1;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.85rem 1rem;
   width: 100%;
   outline: none;
   background: var(--color-background);
+  color: var(--color-fonts);
 }
 
 .addProModal__form {
@@ -1736,7 +1739,7 @@ body {
   width: 100%;
   padding: 0.75rem 0.85rem;
   font-size: 1rem;
-  border: 1.5px solid var(--color-background-grey);
+  border: 1.5px solid #cbd5e1;
   border-radius: 10px;
   outline: none;
   background: var(--color-background);
@@ -2184,16 +2187,12 @@ body {
   display: none;
 }
 
-.planning__addForm {
-  margin: 0 1rem 1.5rem 1rem;
-  padding: 1.25rem;
-  border: 1px solid var(--color-background-grey);
-  border-radius: 12px;
-  background: var(--color-background);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+/* .planning__addForm is now only a JS selector hook — it's always combined
+   with .stock__modal-overlay (see PlanningView.js), which owns all the
+   positioning/box styling for the modal. The old standalone box rules used
+   to live here, but leaving them in place caused the modal overlay to
+   inherit an unwanted margin/border/opaque background, breaking the
+   full-viewport overlay and dim/blur backdrop. */
 
 .planning__formRow {
   display: flex;
@@ -2218,17 +2217,25 @@ body {
   color: var(--color-fonts-grey);
 }
 
-.planning__formField input {
+.planning__formField input,
+.planning__formField select,
+.planning__formField textarea {
   padding: 0.7rem;
   font-size: 0.9rem;
-  border: 1px solid var(--color-background-grey);
+  border: 1.5px solid #cbd5e1;
   border-radius: 8px;
   outline: none;
   background: var(--color-background);
+  color: var(--color-fonts);
+  width: 100%;
+  transition: all 0.2s ease;
 }
 
-.planning__formField input:focus {
+.planning__formField input:focus,
+.planning__formField select:focus,
+.planning__formField textarea:focus {
   border-color: var(--color-primary-color);
+  box-shadow: 0 0 0 3px rgba(21, 112, 239, 0.12);
 }
 
 .planning__formActions {
@@ -2246,13 +2253,30 @@ body {
 }
 
 .planning__cancelBtn {
-  background: var(--color-background-grey);
-  color: var(--color-fonts);
+  background: white;
+  border: 1.5px solid #94a3b8 !important;
+  color: #475569;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.planning__cancelBtn:hover {
+  background: #f1f5f9;
+  border-color: #64748b !important;
+  color: #0f172a;
 }
 
 .planning__saveBtn {
   background: var(--color-primary-color);
   color: white;
+  border: 1.5px solid var(--color-primary-color) !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.planning__saveBtn:hover {
+  background: #1157be;
+  border-color: #1157be !important;
 }
 
 .planning__saveBtn:disabled {
