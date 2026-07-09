@@ -1,4 +1,4 @@
-import StockUi from "./StockView.js";
+import StockUi from "./StockView.js?v=2.5";
 import Storage from "./API.js";
 import { initSidebar } from "./sidebar.js";
 import { initDatePickers } from "./datePicker.js";
