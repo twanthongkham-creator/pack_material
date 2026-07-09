@@ -1,4 +1,4 @@
-import PlanningUi from "./PlanningView.js?v=2.7";
+import PlanningUi from "./PlanningView.js?v=2.8";
 import Storage from "./API.js";
 import { initSidebar } from "./sidebar.js";
 import { initDatePickers } from "./datePicker.js";
